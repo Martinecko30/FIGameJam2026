@@ -964,7 +964,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Managers.DialogueManager
   choicesParent: {fileID: 771673878}
-  dialogueText: {fileID: 0}
+  dialogueText: {fileID: 292624794}
   prefab: {fileID: 2542740247692085486, guid: e2380f634248ab94fb9af32158b7e5a7, type: 3}
 --- !u!4 &1328548794
 Transform:

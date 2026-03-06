@@ -32,8 +32,7 @@ namespace Dialogue
             if (inkStory.canContinue) {
                 DialogueManager.Instance.SetDialogue(inkStory.Continue(), ContinueDialogue);
             }
-            
-            if(inkStory.currentChoices.Count > 0)
+            else if(inkStory.currentChoices.Count > 0)
             {
                 for (int i = 0; i < inkStory.currentChoices.Count; ++i) {
                     Choice choice = inkStory.currentChoices [i];

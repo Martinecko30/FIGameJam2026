@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Core;
+using FPSDemo.Input;
 using Ink.Runtime;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Utilities;
 using UnityEngine.UI;
 
 namespace Managers
@@ -37,8 +40,8 @@ namespace Managers
         {
             dialogueText.text = dialogue;
             
-            
-            callback?.Invoke();
+            if (Application.isPlaying)
+                InputSystem.onAnyButtonPress.Call(_ => callback?.Invoke());
         }
     }
 }
