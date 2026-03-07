@@ -412,6 +412,10 @@ namespace FPSDemo.NPC
             }
 
             _ikRig.weight = 0f;
+            for (int i = 1; i < _animator.layerCount; i++)
+            {
+                _animator.SetLayerWeight(i, 0f);
+            }
             _animator.SetTrigger(_animDeath);
             _navAgent.isStopped = true;
             enabled = false;
