@@ -19,7 +19,9 @@ namespace Managers
         [SerializeField] private TMP_Text dialogueText;
         [SerializeField] private Button prefab;
 
-        [CanBeNull] private Dialogue.Dialogue currentDialogue;
+        [CanBeNull] private Dialogue.Dialog _currentDialog;
+        
+        public Action DialogFinished;
         
         private bool choiceAlreadyChosen = false;
 
@@ -30,8 +32,8 @@ namespace Managers
                 if (!Application.isPlaying)
                     return;
                 
-                if (currentDialogue != null && choices.Count == 0)
-                    currentDialogue.ContinueDialogue();
+                if (_currentDialog != null && choices.Count == 0)
+                    _currentDialog.ContinueDialogue();
             });
         }
 
@@ -55,9 +57,9 @@ namespace Managers
             });
         }
 
-        public void SetDialogue(string text, Dialogue.Dialogue dialogue)
+        public void SetDialogue(string text, Dialogue.Dialog dialog)
         {
-            currentDialogue = dialogue;
+            _currentDialog = dialog;
             dialogueText.text = text;
         }
         
@@ -80,6 +82,8 @@ namespace Managers
             dialogueText.text = "No dialogue!";
             dialogueText.gameObject.SetActive(false);
             choicesParent.gameObject.SetActive(false);
+            
+            DialogFinished?.Invoke();
         }
     }
 }

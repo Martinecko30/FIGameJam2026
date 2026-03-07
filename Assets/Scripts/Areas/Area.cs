@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Managers;
 using UnityEngine;
 
 namespace Areas
@@ -10,6 +12,11 @@ namespace Areas
         public Collider AreaTrigger { get; private set; }
 
         [SerializeField] private List<Collider> areaBounds = new();
+
+        private void Start()
+        {
+            Deactivate();
+        }
 
         public void Activate()
         {
@@ -29,6 +36,14 @@ namespace Areas
             } 
             
             IsActive = false;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Player"))
+            {
+                GameManager.Instance.SetArea(this);
+            }
         }
     }
 }

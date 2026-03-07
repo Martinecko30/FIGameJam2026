@@ -1,9 +1,11 @@
-﻿using System;
-using Areas;
+﻿using Areas;
 using Core;
+using FPSDemo.Core;
+using FPSDemo.Input;
 using FPSDemo.Target;
 using Quests;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace Managers
@@ -13,10 +15,18 @@ namespace Managers
         [SerializeField] private Quest StartQuest;
         [SerializeField] private GameObject player;
         
+        [SerializeField] private InputManager inputManager; 
+        
         private Area currentArea;
 
         private void Start()
         {
+            DialogueManager.Instance.DialogFinished += delegate
+            {
+                inputManager.SetActiveAllGameplayControls(true);
+                Game.ToggleCursor(false);
+            };
+            
             QuestManager.Instance.SetQuest(StartQuest);
             QuestManager.Instance.OnQuestComplete += QuestCompleted;
             var healthSystem = player.GetComponent<HealthSystem>();
@@ -47,6 +57,11 @@ namespace Managers
         {
             string currentSceneName = SceneManager.GetActiveScene().name;
             SceneManager.LoadScene(currentSceneName);
+        }
+
+        public void SetArea(Area area)
+        {
+            currentArea = area;
         }
     }
 }

@@ -19,6 +19,7 @@ namespace Managers
 
         public void SetQuest(Quest quest)
         {
+            ClearQuest();
             ActiveQuest = quest;
             mainGoalText.text = quest.questName;
 
@@ -32,6 +33,14 @@ namespace Managers
         {
             var subGoal = Instantiate(subGoalPrefab, goalsParent);
             subGoal.text = goal.subDescription;
+        }
+
+        private void ClearQuest()
+        {
+            foreach (GameObject child in goalsParent)
+            {
+                Destroy(child);
+            }
         }
     }
 }
