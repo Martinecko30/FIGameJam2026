@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38dfe2499faf68b48919a1141087b44c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GOToPool: {fileID: 100006, guid: 30b4cc2728d8cec499fad63ba93785a4, type: 3}
+  GOToPool: {fileID: 100006, guid: c888f0c922d622147bbdbe2ca794142b, type: 3}
   amountToPreSpawn: 10
 --- !u!1 &5370595555360249547
 GameObject:
@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 4256827425089846474}
   - component: {fileID: 7035698985484556961}
   - component: {fileID: 8729842049084611216}
+  - component: {fileID: 1394855938270928143}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -154,6 +155,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e24996979a1f7f4ea11898a1e812fc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1394855938270928143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5493919324901285930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f88c0f4c20686b4d99c0b8d2d87329b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &7302843272675580090
 GameObject:
   m_ObjectHideFlags: 0
