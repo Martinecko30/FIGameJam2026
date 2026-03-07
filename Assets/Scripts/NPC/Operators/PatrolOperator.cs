@@ -10,8 +10,19 @@ namespace FPSDemo.NPC.Operators
         private bool _isWaiting = false;
         private float _waitEndTime = 0f;
         private Vector3 _currentDestination;
+        private string _activeAnimationBool = "";
 
         private const float ArrivalDistance = 0.5f;
+
+        private void ClearWaypointBehaviors(AIContext c)
+        {
+            c.ThisController.SetLookAtPosition(null);
+            if (!string.IsNullOrEmpty(_activeAnimationBool))
+            {
+                c.ThisController.SetAnimatorBool(_activeAnimationBool, false);
+                _activeAnimationBool = "";
+            }
+        }
 
         public TaskStatus Start(IContext ctx)
         {
@@ -24,6 +35,7 @@ namespace FPSDemo.NPC.Operators
             if (waypoint == null) return TaskStatus.Failure;
 
             _isWaiting = false;
+            ClearWaypointBehaviors(c);
 
             c.ThisController.ApplyWalkSpeed();
             c.ThisController.ClearAimAtPoint();
@@ -67,6 +79,15 @@ namespace FPSDemo.NPC.Operators
                 ? waypointAction.GetWaitTime(patrol.WaitTime)
                 : patrol.WaitTime;
 
+            if (waypointAction != null && waypointAction.UseWaypointFacing)
+                c.ThisController.SetLookAtPosition(waypoint.position + waypoint.forward * 100f);
+
+            if (waypointAction != null && !string.IsNullOrEmpty(waypointAction.WaitAnimationBool))
+            {
+                _activeAnimationBool = waypointAction.WaitAnimationBool;
+                c.ThisController.SetAnimatorBool(_activeAnimationBool, true);
+            }
+
             if (patrol.IsCircular)
             {
                 c.PatrolIndex = (c.PatrolIndex + 1) % patrol.Count;
@@ -87,7 +108,10 @@ namespace FPSDemo.NPC.Operators
         public void Stop(IContext ctx)
         {
             if (ctx is AIContext c)
+            {
                 c.ThisController.SetDestination(null);
+                ClearWaypointBehaviors(c);
+            }
             _isWaiting = false;
         }
 

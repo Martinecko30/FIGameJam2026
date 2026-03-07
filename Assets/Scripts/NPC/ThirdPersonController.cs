@@ -191,6 +191,12 @@ namespace FPSDemo.NPC
             _lookAtPosition = position;
         }
 
+        public void SetAnimatorBool(string paramName, bool value)
+        {
+            if (!string.IsNullOrEmpty(paramName))
+                _animator?.SetBool(paramName, value);
+        }
+
 
         // ========================================================= APPLY SETTINGS
 
