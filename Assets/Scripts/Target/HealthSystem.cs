@@ -32,7 +32,7 @@ namespace FPSDemo.Target
                 // Notify about damage taken at this position
                 OnDamageTaken?.Invoke(transform.position);
                 
-                KillThisEntity();
+                //KillThisEntity();
             }
         }
 

@@ -62,6 +62,7 @@ namespace FPSDemo.NPC.Sensors
             // Reset to default world state for enemy awareness and line of sight
             context.SetState(AIWorldState.AwareOfEnemy, false, EffectType.Permanent);
             context.SetState(AIWorldState.HasEnemyInSight, false, EffectType.Permanent);
+            context.SetState(AIWorldState.CurrentPositionCompromised, context.HasRecentDamage, EffectType.Permanent);
             context.UpdateCurrentEnemy(null);
 
             var bestAwareness = 0.0f;
@@ -101,7 +102,7 @@ namespace FPSDemo.NPC.Sensors
                 if (context.CurrentEnemy != null)
                 {
                     var distance = Vector3.Distance(context.CurrentEnemy.transform.position, context.ThisNPC.transform.position);
-                    Debug.Log($"Current Enemy: {context.CurrentEnemy.gameObject.name} at distance: {distance}");
+                    //Debug.Log($"Current Enemy: {context.CurrentEnemy.gameObject.name} at distance: {distance}");
                 }
             }
         }

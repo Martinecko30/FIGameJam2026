@@ -31,12 +31,12 @@ namespace FPSDemo.NPC
         // TODO: We also need to use a lookup on enemy position to find ideal
         // TODO: destination points. E.g. find a position that's closest to ideal
         // TODO: range and also a tactically sound position.
-        public float IdealEnemyRange { get; set; } = 20.0f;
+        public float IdealEnemyRange { get; set; } = 1.0f;
 
         // Damage tracking for safety score calculation
         public Vector3 LastDamagePosition { get; private set; } = Vector3.zero;
-        public float LastDamageTime { get; private set; } = -1f;
-        public bool HasRecentDamage => Time.time - LastDamageTime < 5f; // 5 second window
+        public float LastDamageTime { get; private set; } = float.NegativeInfinity;
+        public bool HasRecentDamage => Time.time - LastDamageTime < 2f; // 2 second window
 
 
         // ========================================================= INIT
@@ -152,12 +152,6 @@ namespace FPSDemo.NPC
         {
             LastDamagePosition = ThisNPC.transform.position;
             LastDamageTime = Time.time;
-        }
-        
-        public bool WasDamagedNear(Vector3 position, float threshold = 3f)
-        {
-            if (!HasRecentDamage) return false;
-            return Vector3.Distance(LastDamagePosition, position) <= threshold;
         }
     }
 }

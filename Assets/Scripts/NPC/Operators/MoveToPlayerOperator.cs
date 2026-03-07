@@ -1,5 +1,6 @@
 ﻿using FluidHTN.Operators;
 using FluidHTN;
+using UnityEngine;
 using UnityEngine.AI;
 
 namespace FPSDemo.NPC.Operators
@@ -10,10 +11,12 @@ namespace FPSDemo.NPC.Operators
         {
             if (c.CurrentEnemy == null || c.CurrentEnemy.IsPlayer == false)
             {
+                c.ThisController.ClearAimAtPoint();
                 return TaskStatus.Failure;
             }
-
-            var dir = (c.CurrentEnemy.transform.position - c.ThisNPC.transform.position).normalized;
+            
+            c.ThisController.ApplyPlayerAsAimAtPoint();
+            var dir = (c.ThisNPC.transform.position - c.CurrentEnemy.transform.position).normalized;
             var destination = c.CurrentEnemy.transform.position + dir * c.IdealEnemyRange;
             if (NavMesh.SamplePosition(destination, out var hit, 1.0f, NavMesh.AllAreas))
             {
@@ -26,12 +29,11 @@ namespace FPSDemo.NPC.Operators
             }
 
 
-            return TaskStatus.Failure;
+            return TaskStatus.Success;
         }
 
         public TaskStatus UpdateNavigation(AIContext c)
         {
-            
             if (c.CurrentEnemy == null)
             {
                 return TaskStatus.Failure;
@@ -43,7 +45,7 @@ namespace FPSDemo.NPC.Operators
                 return TaskStatus.Success;
             }
 
-            var dir = (c.CurrentEnemy.transform.position - c.ThisNPC.transform.position).normalized;
+            var dir = (c.ThisNPC.transform.position - c.CurrentEnemy.transform.position).normalized;
             var destination = c.CurrentEnemy.transform.position + dir * c.IdealEnemyRange;
             if (NavMesh.SamplePosition(destination, out var hit, 1.0f, NavMesh.AllAreas))
             {
@@ -54,28 +56,25 @@ namespace FPSDemo.NPC.Operators
             {
                 return TaskStatus.Continue;
             }
-            
 
             return TaskStatus.Failure;
         }
 
         public TaskStatus Start(IContext ctx)
         {
-            throw new System.NotImplementedException();
+            if (ctx is AIContext c)
+            {
+                return StartNavigation(c);
+            }
+
+            return TaskStatus.Failure;
         }
 
         public TaskStatus Update(IContext ctx)
         {
             if (ctx is AIContext c)
             {
-                if (c.ThisController.IsStopped)
-                {
-                    return StartNavigation(c);
-                }
-                else
-                {
-                    return UpdateNavigation(c);
-                }
+                return UpdateNavigation(c);
             }
 
             return TaskStatus.Failure;
@@ -91,12 +90,10 @@ namespace FPSDemo.NPC.Operators
 
         public void Abort(IContext ctx)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public void Aborted(IContext ctx)
-        {
-            Stop(ctx);
+            if (ctx is AIContext c)
+            {
+                Stop(c);
+            }
         }
     }
 }

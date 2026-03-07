@@ -1,7 +1,7 @@
 using FluidHTN.Operators;
 using FluidHTN;
+using UnityEngine;
 using UnityEngine.AI;
-
 namespace FPSDemo.NPC.Operators
 {
     public class EmergencyRepositionOperator : IOperator
@@ -22,10 +22,12 @@ namespace FPSDemo.NPC.Operators
                         // Store original speed and set higher movement speed for emergency repositioning
                         _originalSpeed = c.ThisController.Speed;
                         c.ThisController.Speed = _originalSpeed * 1.5f;
+                        c.ThisController.ApplyPlayerAsAimAtPoint();
+                        
                         return TaskStatus.Continue;
                     }
                 }
-                
+                c.ThisController.ClearAimAtPoint();
                 return TaskStatus.Failure;
         }
 
@@ -44,13 +46,17 @@ namespace FPSDemo.NPC.Operators
 
         public TaskStatus Start(IContext ctx)
         {
-            throw new System.NotImplementedException();
+            return TaskStatus.Continue;
         }
 
         public TaskStatus Update(IContext ctx)
         {
             if (ctx is AIContext c)
             {
+                if (!c.HasRecentDamage)
+                {
+                    return TaskStatus.Failure;
+                }
                 if (c.ThisController.IsStopped)
                 {
                     return StartNavigation(c);
@@ -74,11 +80,6 @@ namespace FPSDemo.NPC.Operators
         }
 
         public void Abort(IContext ctx)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Aborted(IContext ctx)
         {
             Stop(ctx);
         }

@@ -69,6 +69,7 @@ namespace FPSDemo.NPC
         private void OnDamageTaken(Vector3 damagePosition)
         {
             _context.RecordDamageAtCurrentPosition();
+            _context.SetState(AIWorldState.CurrentPositionCompromised, true, EffectType.Permanent);
         }
 
         public void Update()

@@ -45,6 +45,12 @@ namespace FPSDemo.Weapons
             {
                 MakeImpactVFX(hit);
             }
+            
+            var healthSystem = hit.collider?.GetComponentInParent<HealthSystem>();                                                                                                                      
+            if (healthSystem != null)                                                                                                                                                             
+            {                                                                                                                                                                                 
+                healthSystem.WasShot(target);                                                                                                                  
+            } 
         }
 
         void MakeMuzzleFlash()
