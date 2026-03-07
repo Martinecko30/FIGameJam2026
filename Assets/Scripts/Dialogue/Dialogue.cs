@@ -1,6 +1,7 @@
 ﻿using System;
 using Ink.Runtime;
 using Managers;
+using Quests;
 using UnityEngine;
 
 namespace Dialogue
@@ -9,7 +10,10 @@ namespace Dialogue
     {
         public TextAsset InkAsset;
 
-        [SerializeField] Story inkStory;
+        private Story inkStory;
+        
+        // TODO: Remove quest
+        [SerializeField] private Quest _quest;
 
         private void Awake()
         {
@@ -18,8 +22,7 @@ namespace Dialogue
 
         private void Start()
         {
-            // TODO: Remove
-            StartDialogue();
+            QuestManager.Instance.SetQuest(_quest);
         }
 
         public void StartDialogue()
@@ -29,14 +32,17 @@ namespace Dialogue
 
         public void ContinueDialogue()
         {
-            if (inkStory.canContinue) 
+            if (!inkStory.canContinue)
             {
-                DialogueManager.Instance.SetDialogue(inkStory.Continue(), this);
-        
-                if (inkStory.currentChoices.Count > 0)
-                {
-                    DisplayChoices();
-                }
+                DialogueManager.Instance.EndDialogue();
+                return;
+            }
+                
+            DialogueManager.Instance.SetDialogue(inkStory.Continue(), this);
+    
+            if (inkStory.currentChoices.Count > 0)
+            {
+                DisplayChoices();
             }
         }
 
