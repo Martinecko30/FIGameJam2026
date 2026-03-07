@@ -205,7 +205,7 @@
       "url": "https://packages.unity.com"
     },
     "fluid.htn": {
-      "version": "file:C:/Users/bytva/Downloads/fluid-hierarchical-task-network-master/fluid-hierarchical-task-network-master/Fluid-HTN",
+      "version": "file:../Assets/Plugins/Fluid-HTN",
       "depth": 0,
       "source": "local",
       "dependencies": {}
