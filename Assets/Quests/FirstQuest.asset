@@ -16,9 +16,9 @@ MonoBehaviour:
   description: Find out where you are
   nextQuest: {fileID: 0}
   subGoals:
-  - subName: 
-    subDescription: 
+  - subName: Sup
+    subDescription: do this
     goalPosition: {x: 0, y: 0}
     useRadius: 0
     radius: 0
-    circleColor: {r: 0, g: 0, b: 0, a: 0}
+    circleColor: {r: 1, g: 0, b: 0, a: 0}
