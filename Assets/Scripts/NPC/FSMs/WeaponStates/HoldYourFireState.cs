@@ -24,6 +24,16 @@ namespace FPSDemo.NPC.FSMs.WeaponStates
                 if (npcCtx.HasWeaponState(WeaponStateType.HoldYourFire) == false)
                 {
                     mgr.ChangeState((int)npcCtx.GetWeaponState(), ctx);
+                    return;
+                }
+
+                if (npcCtx.CurrentEnemy != null)
+                {
+                    var distance = UnityEngine.Vector3.Distance(npcCtx.ThisNPC.transform.position, npcCtx.CurrentEnemy.transform.position);
+                    if (distance <= 2f)
+                    {
+                        mgr.ChangeState((int)WeaponStateType.SingleShot, ctx);
+                    }
                 }
             }
         }

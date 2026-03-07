@@ -25,17 +25,8 @@ namespace FPSDemo.NPC.FSMs.WeaponStates
             var timeSinceLastShot = Time.time - _lastShotTime;
             if (ctx is AIContext c)
             {
-                // If we're no longer in single shot state, transition!
-                if (c.HasWeaponState(WeaponStateType.SingleShot) == false)
-                {
-                    StopShooting(c);
-                    mgr.ChangeState((int)c.GetWeaponState(), ctx);
-                    return;
-                }
-
-                // We shouldn't shoot if we don't have the enemy in sight
-                // This will block things like suppression fire. So evaluate options!
-                if (c.HasState(AIWorldState.HasEnemyInSight) == false)
+                // Stop attacking if enemy is out of melee range or gone
+                if (c.CurrentEnemy == null || Vector3.Distance(c.ThisNPC.transform.position, c.CurrentEnemy.transform.position) > 2f)
                 {
                     StopShooting(c);
                     mgr.ChangeState((int)WeaponStateType.HoldYourFire, ctx);
@@ -77,7 +68,6 @@ namespace FPSDemo.NPC.FSMs.WeaponStates
             {
                 c.SetState(AIWorldState.IsShooting, false, EffectType.Permanent);
                 c.ThisController.StopShooting();
-                //c.ThisController.ClearAimAtPoint();
             }
         }
     }
