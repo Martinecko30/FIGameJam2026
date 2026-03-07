@@ -42,6 +42,7 @@ namespace FPSDemo.NPC
         private float _speedChangeRate = 10.0f;
 
         [Header("Melee")] [SerializeField] private float _meleeAttackRange = 2f;
+        [SerializeField] private float _meleeAttackCooldown = 1f;
 
         [SerializeField] private AudioClip[] _footstepAudioClips;
 
@@ -85,6 +86,8 @@ namespace FPSDemo.NPC
 
         private HumanTarget _thisTarget;
         [SerializeField] HealthSystem _playerHealthSystem;
+        private float _lastMeleeAttackTime = Mathf.NegativeInfinity;
+        private int _animAttack;
 
         // timeout deltatime
         private float _fallTimeoutDelta;
@@ -168,6 +171,7 @@ namespace FPSDemo.NPC
             _animIsShooting = Animator.StringToHash("IsShooting");
             _animReload = Animator.StringToHash("Reload");
             _animDeath = Animator.StringToHash("Death");
+            _animAttack = Animator.StringToHash("Attack");
         }
 
 
@@ -387,6 +391,17 @@ namespace FPSDemo.NPC
             SetDestination(_playerTransform.position);
         }
 
+        // ========================================================= MELEE BEHAVIORS
+
+        public bool CanMeleeAttack => Time.time - _lastMeleeAttackTime >= _meleeAttackCooldown;
+
+        public void TriggerMeleeAttack()
+        {
+            if (!CanMeleeAttack) return;
+            _lastMeleeAttackTime = Time.time;
+            _animator.SetTrigger(_animAttack);
+        }
+
         // ========================================================= DEATH BEHAVIORS
 
         public void Death()
@@ -470,7 +485,8 @@ namespace FPSDemo.NPC
 
         public void OnMeleeHit(AnimationEvent animationEvent)
         {
-            Debug.Log("CALLED");
+            if (Time.time - _lastMeleeAttackTime < _meleeAttackCooldown) return;
+            _lastMeleeAttackTime = Time.time;
             if (_playerHealthSystem == null) return;
             if (Vector3.Distance(transform.position, _playerTransform.position) <= _meleeAttackRange)
             {
