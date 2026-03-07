@@ -1157,7 +1157,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.526
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1174,7 +1174,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FPSDemo.UI.HealthSlider
   _healthSystem: {fileID: 1050206873}
-  _slider: {fileID: 481985801}
 --- !u!64 &509276020
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2304,6 +2303,10 @@ PrefabInstance:
     - target: {fileID: 2879234820077837986, guid: 5245a5145bc209a4485ec4c6b284017f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4286341724367834088, guid: 5245a5145bc209a4485ec4c6b284017f, type: 3}
+      propertyPath: _meleeHitBuffer
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4286341724367834088, guid: 5245a5145bc209a4485ec4c6b284017f, type: 3}
       propertyPath: _playerTransform
@@ -6111,6 +6114,18 @@ PrefabInstance:
     - target: {fileID: 6788448091484151933, guid: 00594d37d3d43a04e8fa57f9f6e18992, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7181421376379108805, guid: 00594d37d3d43a04e8fa57f9f6e18992, type: 3}
+      propertyPath: _hitRecoilPitch
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7181421376379108805, guid: 00594d37d3d43a04e8fa57f9f6e18992, type: 3}
+      propertyPath: _hitRecoilYawRange
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7181421376379108805, guid: 00594d37d3d43a04e8fa57f9f6e18992, type: 3}
+      propertyPath: _recoilRecoverySpeed
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

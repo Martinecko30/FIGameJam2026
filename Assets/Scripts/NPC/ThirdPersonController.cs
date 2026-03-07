@@ -38,6 +38,7 @@ namespace FPSDemo.NPC
         private float _rotationSmoothTime = 0.12f;
         [Header("Melee")] [SerializeField] private float _meleeAttackRange = 2f;
         [SerializeField] private float _meleeAttackCooldown = 1f;
+        [SerializeField] private float _meleeHitBuffer = 0.5f;
 
         [SerializeField] private AudioClip[] _footstepAudioClips;
 
@@ -513,7 +514,7 @@ namespace FPSDemo.NPC
         public void OnMeleeHit(AnimationEvent animationEvent)
         {
             if (_playerHealthSystem == null) return;
-            if (Vector3.Distance(transform.position, _playerTransform.position) <= _meleeAttackRange)
+            if (Vector3.Distance(transform.position, _playerTransform.position) <= _meleeAttackRange + _meleeHitBuffer)
             {
                 _playerHealthSystem.WasShot(_thisTarget);
             }
