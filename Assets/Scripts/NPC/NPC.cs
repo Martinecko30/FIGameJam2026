@@ -17,6 +17,7 @@ namespace FPSDemo.NPC
 		[SerializeField] private Vector3 _velocity;
         [SerializeField] private NPCSettings _settings;
         [SerializeField] private ThirdPersonController _controller;
+        [SerializeField] private PatrolPath _patrolPath;
 
 
         // ========================================================= PRIVATE FIELDS
@@ -33,6 +34,7 @@ namespace FPSDemo.NPC
 
         public ThirdPersonController Controller => _controller;
         public AIContext Context => _context;
+        public PatrolPath PatrolPath => _patrolPath;
 
         // ========================================================= UNITY METHODS
 
