@@ -12,13 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cbf07f87fdcb0443b4b3c185ff766e6, type: 3}
   m_Name: FirstQuest
   m_EditorClassIdentifier: Assembly-CSharp::Quests.Quest
-  questName: Where am I?
-  description: Find out where you are
-  nextQuest: {fileID: 0}
+  questName: Kde jsem?
+  description: Kde jsem?
+  nextQuest: {fileID: 11400000, guid: 3bfc6f0f4be31d649a95c151d580e35d, type: 2}
   subGoals:
-  - subName: Sup
-    subDescription: do this
-    goalPosition: {x: 0, y: 0}
-    useRadius: 0
-    radius: 0
+  - subName: "Promluv si s bl\xE1znem"
+    subDescription: "Promluv si s bl\xE1znem"
+    goalPosition: {x: 7, y: 0}
+    useRadius: 1
+    radius: 1
+    circleColor: {r: 1, g: 0, b: 0, a: 0}
+  - subName: Vybojuj si odsud cestu
+    subDescription: Vybojuj si odsud cestu
+    goalPosition: {x: 3, y: -4}
+    useRadius: 1
+    radius: 1
     circleColor: {r: 1, g: 0, b: 0, a: 0}

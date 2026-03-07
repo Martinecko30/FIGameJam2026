@@ -5,7 +5,6 @@ using System.Linq;
 using System.Collections;
 using FPSDemo.Input;
 using FPSDemo.Target;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace FPSDemo.Player
 {

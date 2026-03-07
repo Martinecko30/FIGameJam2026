@@ -1,8 +1,6 @@
 using FPSDemo.Target;
 using FPSDemo.Weapons;
-using TMPro;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace FPSDemo.Player
 {

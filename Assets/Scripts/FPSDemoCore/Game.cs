@@ -25,7 +25,7 @@ namespace FPSDemo.Core
 
         // ========================================================= TOGGLES
 
-        private static void ToggleCursor(bool value)
+        public static void ToggleCursor(bool value)
         {
             if (value)
             {
