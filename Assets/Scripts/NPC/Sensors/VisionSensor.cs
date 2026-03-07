@@ -153,12 +153,16 @@ namespace FPSDemo.NPC.Sensors
                 var currentTargetData = kvp.Value;
                 currentTargetData.visibleBodyParts.Clear();
 
-                var visionModifier = GetVisionModifier(currentTarget, currentTargetData);
+                var isAlerted = currentTargetData.awarenessOfThisTarget >= context.AlertAwarenessThreshold;
+                var visionModifier = GetVisionModifier(currentTarget, currentTargetData, isAlerted);
                 var awarenessChangeThisTick = visionModifier / _timeToNotice * Time.deltaTime;
 
                 if (visionModifier == 0)
                 {
-                    context.AwarenessDecrease(currentTargetData);
+                    if (currentTargetData.awarenessOfThisTarget < context.AlertAwarenessThreshold)
+                    {
+                        context.AwarenessDecrease(currentTargetData);
+                    }
                     if (currentTarget.IsPlayer)
                     {
                         DeregisterDetectionGUI();
@@ -201,7 +205,7 @@ namespace FPSDemo.NPC.Sensors
 
         // ========================================================= GETTERS
 
-        private float GetVisionModifier(HumanTarget target, TargetData targetData)
+        private float GetVisionModifier(HumanTarget target, TargetData targetData, bool isAlerted = false)
         {
             var directionToTarget = target.eyes.position - _thisTarget.eyes.position;
             var horizontalEyeDir = Vector3.ProjectOnPlane(_thisTarget.eyes.forward, _thisTarget.eyes.up);
@@ -215,11 +219,15 @@ namespace FPSDemo.NPC.Sensors
                 return 0f;
             }
 
-            var verticalAngle = Vector3.Angle(directionToTarget, horizontalDirToTarget);
-            var verticalModifier = GetVerticalVisionConeModifier(distanceToTarget, verticalAngle, target);
-            if (verticalModifier <= 0)
+            var verticalModifier = 1f;
+            if (!isAlerted)
             {
-                return 0f;
+                var verticalAngle = Vector3.Angle(directionToTarget, horizontalDirToTarget);
+                verticalModifier = GetVerticalVisionConeModifier(distanceToTarget, verticalAngle, target);
+                if (verticalModifier <= 0)
+                {
+                    return 0f;
+                }
             }
 
             var rayCastModifier = GetRaycastModifier(target, targetData);
