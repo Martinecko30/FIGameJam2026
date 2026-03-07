@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DomainName: Soldier
   OrderedTasks:
-  - {fileID: 11400000, guid: 6c2b8de27d51f9c41ad72ef928a70287, type: 2}
   - {fileID: 11400000, guid: 295b9a04f2f04004a9b1db40f02d5c44, type: 2}
+  - {fileID: 11400000, guid: 6c2b8de27d51f9c41ad72ef928a70287, type: 2}
   - {fileID: 11400000, guid: 55089d75f59dbad4194aeaf181e26d88, type: 2}
   - {fileID: 11400000, guid: 0a51faf756a4d524cb368c7ccb0e2111, type: 2}

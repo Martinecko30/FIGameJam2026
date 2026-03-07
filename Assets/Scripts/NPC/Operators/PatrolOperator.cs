@@ -9,6 +9,7 @@ namespace FPSDemo.NPC.Operators
     {
         private bool _isWaiting = false;
         private float _waitEndTime = 0f;
+        private Vector3 _currentDestination;
 
         private const float ArrivalDistance = 0.5f;
 
@@ -33,6 +34,7 @@ namespace FPSDemo.NPC.Operators
                 return TaskStatus.Failure;
             }
 
+            _currentDestination = hit.position;
             c.ThisController.SetDestination(hit.position);
             return TaskStatus.Continue;
         }
@@ -48,9 +50,10 @@ namespace FPSDemo.NPC.Operators
 
             var patrol = c.PatrolPath;
             var waypoint = patrol.GetWaypoint(c.PatrolIndex);
-            var distance = Vector3.Distance(c.ThisNPC.transform.position, waypoint.position);
+            var distance = Vector3.Distance(c.ThisNPC.transform.position, _currentDestination);
+            var arrivalRadius = Mathf.Max(ArrivalDistance, c.ThisController.StoppingDistance + 0.1f);
 
-            if (distance > ArrivalDistance)
+            if (distance > arrivalRadius)
                 return TaskStatus.Continue;
 
             // Arrived
