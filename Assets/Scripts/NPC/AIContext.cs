@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using FluidHTN;
 using FluidHTN.Contexts;
 using FPSDemo.Target;
 
@@ -144,6 +145,22 @@ namespace FPSDemo.NPC
         {
             targetData.awarenessOfThisTarget = Mathf.Max(0f,
                 targetData.awarenessOfThisTarget - AwarenessDeterioration * Time.deltaTime);
+        }
+
+
+        // ========================================================= INVESTIGATION
+
+        public Vector3 InvestigatePosition { get; private set; }
+
+        public void SetInvestigatePosition(Vector3 position)
+        {
+            InvestigatePosition = position;
+            SetState(AIWorldState.IsInvestigating, true, EffectType.Permanent);
+        }
+
+        public void ClearInvestigatePosition()
+        {
+            SetState(AIWorldState.IsInvestigating, false, EffectType.Permanent);
         }
 
 

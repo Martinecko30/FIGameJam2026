@@ -70,6 +70,21 @@ namespace FPSDemo.NPC
             _weaponFsm.ChangeState((int)WeaponStateType.HoldYourFire, _context);
         }
 
+        /// <summary>Sends this NPC to investigate a world position without alerting them to the player.</summary>
+        public void SendToInvestigate(Vector3 position)
+        {
+            _context.SetInvestigatePosition(position);
+        }
+
+        /// <summary>Immediately fully alerts this NPC to the given target.</summary>
+        public void ForceAlert(HumanTarget target)
+        {
+            if (_context.EnemiesSpecificData.ContainsKey(target))
+            {
+                _context.SetAwarenessOfThisEnemy(target, _context.AlertAwarenessThreshold);
+            }
+        }
+
         private void OnEnemySpottedAlert(HumanTarget spottedTarget, Vector3 reporterPosition, float alertRadius)
         {
             if (Vector3.Distance(transform.position, reporterPosition) > alertRadius) return;

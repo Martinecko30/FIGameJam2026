@@ -117,6 +117,7 @@ namespace FPSDemo.NPC
         public float DistanceToDestination => _navAgent?.remainingDistance ?? 0.0f;
         public float StoppingDistance => _navAgent?.stoppingDistance ?? 0.0f;
         public bool IsStopped => _navAgent?.isStopped ?? true;
+        public bool HasPath => _navAgent != null && _navAgent.hasPath;
         public bool IsReloading => _isReloading;
         public bool IsShooting => _isShooting;
         public Vector3 Destination => _navAgent?.destination ?? Vector3.zero;

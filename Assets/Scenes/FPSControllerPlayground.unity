@@ -4214,6 +4214,17 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 2353159594967592207, guid: 660b12fa74b74bf4795d8aaba93d0145, type: 3}
+--- !u!114 &1427208611 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 771428641627287120, guid: 5245a5145bc209a4485ec4c6b284017f, type: 3}
+  m_PrefabInstance: {fileID: 1138573877}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5871d0f2c70f65d4fa8b2d3bc0110182, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!64 &1434582934
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -4520,6 +4531,53 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -4757791234947342919, guid: 660b12fa74b74bf4795d8aaba93d0145, type: 3}
+--- !u!1 &1583918980
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1583918982}
+  - component: {fileID: 1583918981}
+  m_Layer: 0
+  m_Name: Brisoner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1583918981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1583918980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a59e61b5b5a4cb94d95f79f47b265893, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NPC::FPSDemo.NPC.ScriptedGuardAlert
+  _guardsToAlert:
+  - {fileID: 1427208611}
+  - {fileID: 513423852}
+--- !u!4 &1583918982
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1583918980}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 12.53, y: 0.58, z: -1.38}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &1629595585
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -5955,3 +6013,4 @@ SceneRoots:
   - {fileID: 1138573877}
   - {fileID: 513423850}
   - {fileID: 1544289567}
+  - {fileID: 1583918982}
