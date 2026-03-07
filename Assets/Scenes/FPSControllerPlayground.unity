@@ -1924,22 +1924,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Soldier
       objectReference: {fileID: 0}
-    - target: {fileID: 894179025977565157, guid: 5245a5145bc209a4485ec4c6b284017f, type: 3}
-      propertyPath: 'bodyPartsToRaycast.Array.data[0]'
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 894179025977565157, guid: 5245a5145bc209a4485ec4c6b284017f, type: 3}
-      propertyPath: 'bodyPartsToRaycast.Array.data[1]'
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 894179025977565157, guid: 5245a5145bc209a4485ec4c6b284017f, type: 3}
-      propertyPath: 'bodyPartsToRaycast.Array.data[2]'
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 894179025977565157, guid: 5245a5145bc209a4485ec4c6b284017f, type: 3}
-      propertyPath: 'bodyPartsToRaycast.Array.data[3]'
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 2879234820077837986, guid: 5245a5145bc209a4485ec4c6b284017f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.409
@@ -1979,10 +1963,6 @@ PrefabInstance:
     - target: {fileID: 2879234820077837986, guid: 5245a5145bc209a4485ec4c6b284017f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4286341724367834088, guid: 5245a5145bc209a4485ec4c6b284017f, type: 3}
-      propertyPath: _ikRig
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4286341724367834088, guid: 5245a5145bc209a4485ec4c6b284017f, type: 3}
       propertyPath: _playerTransform

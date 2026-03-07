@@ -12,6 +12,7 @@ namespace FPSDemo.NPC
 
         [SerializeField] Transform _playerTransform;
         [SerializeField] Transform _pointToAimAt;
+        [SerializeField] private float _pointToAimAtYDif = 0.5f;
         [SerializeField] Transform _rootModel;
         [SerializeField] Animator _animator;
         [SerializeField] NavMeshAgent _navAgent;
@@ -24,8 +25,6 @@ namespace FPSDemo.NPC
         [Tooltip("How fast the character un/crouches in s")] [SerializeField]
         private float _speedToCrouch = 1f;
 
-        [SerializeField] private float _speedToStop = 0.2f;
-
         [Header("Speed")] [Tooltip("Crouched speed of the character in m/s")] [SerializeField]
         private float _crouchedSpeed = 1.5f;
 
@@ -37,9 +36,6 @@ namespace FPSDemo.NPC
 
         [Tooltip("How fast the character turns to face movement direction")] [Range(0.0f, 0.3f)] [SerializeField]
         private float _rotationSmoothTime = 0.12f;
-
-        [Tooltip("Acceleration and deceleration")] [SerializeField]
-        private float _speedChangeRate = 10.0f;
 
         [Header("Melee")] [SerializeField] private float _meleeAttackRange = 2f;
         [SerializeField] private float _meleeAttackCooldown = 1f;
@@ -299,7 +295,9 @@ namespace FPSDemo.NPC
             else if (Mathf.Abs(Vector3.SignedAngle(transform.position, _pointToAimAt.position, Vector3.up)) <
                      angleToTargetToEngageIK)
             {
-                _ikRigAim.transform.position = _pointToAimAt.position;
+                Vector3 actualPointToAimAt = _pointToAimAt.position;
+                actualPointToAimAt.y -= _pointToAimAtYDif;
+                _ikRigAim.transform.position = actualPointToAimAt;
                 _targetIKRigWeight = 1f;
             }
         }
@@ -319,6 +317,14 @@ namespace FPSDemo.NPC
                 {
                     _isReloading = false;
                 }
+            }
+
+            // Reset attack layer weight once the swing finishes
+            if (_animator.GetLayerWeight(1) > 0f)
+            {
+                var attackState = _animator.GetCurrentAnimatorStateInfo(1);
+                if (attackState.IsName("Attack") && attackState.normalizedTime >= 1f && !_animator.IsInTransition(1))
+                    _animator.SetLayerWeight(1, 0f);
             }
         }
 
@@ -344,7 +350,6 @@ namespace FPSDemo.NPC
         public void StartShooting()
         {
             _isShooting = true;
-            _animator.SetBool(_animIsShooting, _isShooting);
         }
 
         public void Crouch()
@@ -375,7 +380,6 @@ namespace FPSDemo.NPC
         public void StopShooting()
         {
             _isShooting = false;
-            _animator.SetBool(_animIsShooting, _isShooting);
         }
 
         public void Uncrouch()
@@ -401,8 +405,6 @@ namespace FPSDemo.NPC
             {
                 StopShooting();
             }
-
-            _animator.SetTrigger(_animReload);
         }
 
         public void NavigateToPlayer()
@@ -413,11 +415,13 @@ namespace FPSDemo.NPC
         // ========================================================= MELEE BEHAVIORS
 
         public bool CanMeleeAttack => Time.time - _lastMeleeAttackTime >= _meleeAttackCooldown;
+        public float MeleeRange => _meleeAttackRange;
 
         public void TriggerMeleeAttack()
         {
             if (!CanMeleeAttack) return;
             _lastMeleeAttackTime = Time.time;
+            _animator.SetLayerWeight(1, 1f);
             _animator.SetTrigger(_animAttack);
         }
 
@@ -435,6 +439,7 @@ namespace FPSDemo.NPC
             {
                 _animator.SetLayerWeight(i, 0f);
             }
+
             _animator.SetTrigger(_animDeath);
             _navAgent.isStopped = true;
             enabled = false;
@@ -508,8 +513,6 @@ namespace FPSDemo.NPC
 
         public void OnMeleeHit(AnimationEvent animationEvent)
         {
-            if (Time.time - _lastMeleeAttackTime < _meleeAttackCooldown) return;
-            _lastMeleeAttackTime = Time.time;
             if (_playerHealthSystem == null) return;
             if (Vector3.Distance(transform.position, _playerTransform.position) <= _meleeAttackRange)
             {
