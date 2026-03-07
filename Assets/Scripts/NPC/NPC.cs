@@ -27,6 +27,7 @@ namespace FPSDemo.NPC
         private Planner<AIContext> _planner;
 
         private WeaponFsm _weaponFsm;
+        private HealthSystem _healthSystem;
 
         // ========================================================= PUBLIC PROPERTIES
 
@@ -55,20 +56,41 @@ namespace FPSDemo.NPC
 			_context.Init(_settings);
 
             // Subscribe to damage events
-            var healthSystem = GetComponent<HealthSystem>();
-            if (healthSystem != null)
+            _healthSystem = GetComponent<HealthSystem>();
+            if (_healthSystem != null)
             {
-                healthSystem.OnDamageTaken += OnDamageTaken;
-                healthSystem.OnDeath += OnDeath;
+                _healthSystem.OnDamageTaken += OnDamageTaken;
+                _healthSystem.OnDeath += OnDeath;
             }
+
+            AlertSystem.OnEnemySpotted += OnEnemySpottedAlert;
 
             // NPC starts off holding their fire, until the planner decides otherwise.
             _context.SetWeaponState(WeaponStateType.HoldYourFire, EffectType.Permanent);
             _weaponFsm.ChangeState((int)WeaponStateType.HoldYourFire, _context);
         }
-        
-        private void OnDamageTaken(Vector3 damagePosition)
+
+        private void OnEnemySpottedAlert(HumanTarget spottedTarget, Vector3 reporterPosition, float alertRadius)
         {
+            if (Vector3.Distance(transform.position, reporterPosition) > alertRadius) return;
+            if (!_context.EnemiesSpecificData.ContainsKey(spottedTarget)) return;
+
+            _context.SetAwarenessOfThisEnemy(spottedTarget, _context.AlertAwarenessThreshold);
+        }
+        
+        private void OnDamageTaken(Vector3 damagePosition, HumanTarget attacker)
+        {
+            if (attacker != null && _context.EnemiesSpecificData.ContainsKey(attacker))
+            {
+                if (!_context.HasState(AIWorldState.AwareOfEnemy))
+                {
+                    _healthSystem.ForceKill();
+                    return;
+                }
+
+                _context.SetAwarenessOfThisEnemy(attacker, _context.AlertAwarenessThreshold);
+            }
+
             _context.RecordDamageAtCurrentPosition();
             _context.SetState(AIWorldState.CurrentPositionCompromised, true, EffectType.Permanent);
         }
@@ -91,12 +113,13 @@ namespace FPSDemo.NPC
         
         private void OnDestroy()
         {
-            var healthSystem = GetComponent<HealthSystem>();
-            if (healthSystem != null)
+            if (_healthSystem != null)
             {
-                healthSystem.OnDamageTaken -= OnDamageTaken;
-                healthSystem.OnDeath -= OnDeath;
+                _healthSystem.OnDamageTaken -= OnDamageTaken;
+                _healthSystem.OnDeath -= OnDeath;
             }
+
+            AlertSystem.OnEnemySpotted -= OnEnemySpottedAlert;
         }
     }
 }

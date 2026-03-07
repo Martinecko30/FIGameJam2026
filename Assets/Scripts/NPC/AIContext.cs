@@ -19,6 +19,7 @@ namespace FPSDemo.NPC
 
         public float AlertAwarenessThreshold => _settings != null ? _settings.AlertAwarenessThreshold : 2f;
         public float AwarenessDeterioration => _settings != null ? _settings.AwarenessDeterioration : 0.1f;
+        public float AlertRadius => _settings != null ? _settings.AlertRadius : 30f;
 
         public NPC ThisNPC { get; }
         public HumanTarget ThisTarget { get; }

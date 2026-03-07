@@ -1515,6 +1515,8 @@ GameObject:
   - component: {fileID: 4286341724367834088}
   - component: {fileID: 4832982898588977342}
   - component: {fileID: -2090350393218632744}
+  - component: {fileID: 1917203156932474957}
+  - component: {fileID: 5019909181503377382}
   m_Layer: 6
   m_Name: Soldier
   m_TagString: Untagged
@@ -1735,6 +1737,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _npc: {fileID: 771428641627287120}
+--- !u!114 &1917203156932474957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467778002156970774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 769c93a7d949ba24f891fc7ad5dad757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NPC::FPSDemo.NPC.Sensors.TouchSensor
+  _npc: {fileID: 771428641627287120}
+--- !u!114 &5019909181503377382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467778002156970774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d71b72336f32fb94daa696e1d91ddce9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NPC::FPSDemo.NPC.Sensors.HearingSensor
+  _maxHearingDistance: 20
+  _awarenessGainPerSecondAtMaxNoise: 2
+  _turnTowardSoundThreshold: 0.75
+  _debugMode: 1
 --- !u!1 &603353626836289854
 GameObject:
   m_ObjectHideFlags: 0

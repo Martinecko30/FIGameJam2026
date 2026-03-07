@@ -16,7 +16,7 @@ namespace FPSDemo.Target
         bool isDead = false;
         int _hitCount = 0;
         public event Action OnDeath;
-        public event Action<Vector3> OnDamageTaken;
+        public event Action<Vector3, HumanTarget> OnDamageTaken;
         public HumanTarget ThisTarget { get; private set; }
         CapsuleCollider characterCollider;
 
@@ -26,12 +26,20 @@ namespace FPSDemo.Target
             characterCollider = GetComponent<CapsuleCollider>();
         }
 
+        public void ForceKill()
+        {
+            if (!isDead && !godMode)
+            {
+                KillThisEntity();
+            }
+        }
+
         public void WasShot(HumanTarget shotBy)
         {
             if (!isDead && shotBy != ThisTarget && !godMode)
             {
                 // Notify about damage taken at this position
-                OnDamageTaken?.Invoke(transform.position);
+                OnDamageTaken?.Invoke(transform.position, shotBy);
 
                 _hitCount++;
                 if (_hitCount >= hitsToKill)

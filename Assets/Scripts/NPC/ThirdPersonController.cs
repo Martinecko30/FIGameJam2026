@@ -104,6 +104,9 @@ namespace FPSDemo.NPC
         private IEnumerator _crouchCoroutine;
         private float _crouchAmount;
 
+        // investigation
+        private Vector3? _lookAtPosition;
+
         // target
         private float _targetSpeed;
         private float _targetSpeedCached;
@@ -182,6 +185,11 @@ namespace FPSDemo.NPC
             _pointToAimAt = null;
         }
 
+        public void SetLookAtPosition(Vector3? position)
+        {
+            _lookAtPosition = position;
+        }
+
 
         // ========================================================= APPLY SETTINGS
 
@@ -255,6 +263,10 @@ namespace FPSDemo.NPC
             if (_pointToAimAt != null)
             {
                 inputDirection = (_pointToAimAt.position - transform.position).normalized;
+            }
+            else if (_lookAtPosition.HasValue)
+            {
+                inputDirection = (_lookAtPosition.Value - transform.position).normalized;
             }
             else if (_navAgent.hasPath)
             {

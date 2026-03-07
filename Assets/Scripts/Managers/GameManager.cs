@@ -35,7 +35,7 @@ namespace Managers
             Restart();
         }
 
-        private void PlayerDamaged(Vector3 position)
+        private void PlayerDamaged(Vector3 position, HumanTarget attacker)
         {
             if (currentArea.AreaTrigger.bounds.Contains(position) && !currentArea.IsActive)
             {

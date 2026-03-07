@@ -17,6 +17,7 @@ namespace FPSDemo.NPC.Sensors
 
         // ========================================================= PRIVATE FIELDS
 
+        private bool _wasAlerted = false;
 
 
         // ========================================================= PROPERTIES
@@ -66,6 +67,7 @@ namespace FPSDemo.NPC.Sensors
             context.UpdateCurrentEnemy(null);
 
             var bestAwareness = 0.0f;
+            var isAlertedThisTick = false;
 
             // Update to current enemy awareness and line of sight world state
             foreach (var kvp in context.EnemiesSpecificData)
@@ -76,6 +78,8 @@ namespace FPSDemo.NPC.Sensors
                 // If we are above our alert awareness threshold
                 if (currentTargetData.awarenessOfThisTarget >= context.AlertAwarenessThreshold)
                 {
+                    isAlertedThisTick = true;
+
                     // And we are currently not aware of enemy
                     if (context.HasState(AIWorldState.AwareOfEnemy, false))
                     {
@@ -83,7 +87,7 @@ namespace FPSDemo.NPC.Sensors
                         context.SetState(AIWorldState.AwareOfEnemy, true, EffectType.Permanent);
 
                         // If we currently don't have an enemy in sight, but this enemy is visible to us
-                        if (context.HasState(AIWorldState.HasEnemyInSight, false) && 
+                        if (context.HasState(AIWorldState.HasEnemyInSight, false) &&
                             currentTargetData.visibleBodyParts.Count > 0)
                         {
                             // Set a permanent change to our "here and now" world state, we have an enemy in sight!!!
@@ -105,6 +109,14 @@ namespace FPSDemo.NPC.Sensors
                     //Debug.Log($"Current Enemy: {context.CurrentEnemy.gameObject.name} at distance: {distance}");
                 }
             }
+
+            // Alert nearby allies the first time this NPC becomes fully alerted
+            if (isAlertedThisTick && !_wasAlerted && context.CurrentEnemy != null)
+            {
+                AlertSystem.ReportEnemySpotted(context.CurrentEnemy, context.ThisNPC.transform.position, context.AlertRadius);
+            }
+
+            _wasAlerted = isAlertedThisTick;
         }
 
 

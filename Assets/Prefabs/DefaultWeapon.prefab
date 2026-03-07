@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f504d93444fd34c4aafae68a7ad11f48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gunShotDistanceToAlert: 0
+  gunShotDistanceToAlert: 5
   swingFXPos: {fileID: 3899602679591718997}
   muzzleFlashDuration: 0.15
   weaponAudioSource: {fileID: 0}
