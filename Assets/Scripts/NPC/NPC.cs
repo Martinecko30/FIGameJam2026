@@ -59,6 +59,7 @@ namespace FPSDemo.NPC
             if (healthSystem != null)
             {
                 healthSystem.OnDamageTaken += OnDamageTaken;
+                healthSystem.OnDeath += OnDeath;
             }
 
             // NPC starts off holding their fire, until the planner decides otherwise.
@@ -70,6 +71,14 @@ namespace FPSDemo.NPC
         {
             _context.RecordDamageAtCurrentPosition();
             _context.SetState(AIWorldState.CurrentPositionCompromised, true, EffectType.Permanent);
+        }
+
+        private void OnDeath()
+        {
+            _controller.Death();
+            var visionSensor = GetComponent<VisionSensor>();
+            if (visionSensor != null) visionSensor.enabled = false;
+            enabled = false;
         }
 
         public void Update()
@@ -86,6 +95,7 @@ namespace FPSDemo.NPC
             if (healthSystem != null)
             {
                 healthSystem.OnDamageTaken -= OnDamageTaken;
+                healthSystem.OnDeath -= OnDeath;
             }
         }
     }

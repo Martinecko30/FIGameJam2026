@@ -134,6 +134,7 @@ namespace FPSDemo.NPC
 			_fallTimeoutDelta = _fallTimeout;
 			_targetSpeed = _walkSpeed;
 			_targetSpeedCached = _walkSpeed;
+
 		}
 
 		private void Update()
@@ -379,14 +380,15 @@ namespace FPSDemo.NPC
 
         public void Death()
         {
-            _isReloading = true;
-
             if (_isShooting)
             {
                 StopShooting();
             }
 
+            _ikRig.weight = 0f;
             _animator.SetTrigger(_animDeath);
+            _navAgent.isStopped = true;
+            enabled = false;
         }
 
 

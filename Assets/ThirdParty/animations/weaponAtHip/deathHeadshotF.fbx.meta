@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 64035e500f8bb6741ada8bd0c4828b73
 ModelImporter:
-  serializedVersion: 22200
+  serializedVersion: 24200
   internalIDToNameTable: []
   externalObjects: {}
   materials:
@@ -16,15 +16,6 @@ ModelImporter:
     optimizeGameObjects: 0
     removeConstantScaleCurves: 0
     motionNodeName: 
-    rigImportErrors: 
-    rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
-      copied configuration does not match position in animation file:\n\t'mixamorig:LeftUpLeg'
-      : position error = 53.423031 mm\n\t'mixamorig:LeftLeg' : position error = 18.000988
-      mm\n\t'mixamorig:LeftFoot' : position error = 15.280721 mm\n\t'mixamorig:LeftToeBase'
-      : position error = 4.030403 mm\n\t'mixamorig:RightUpLeg' : position error =
-      53.424015 mm\n\t'mixamorig:RightLeg' : position error = 17.512928 mm\n\t'mixamorig:RightFoot'
-      : position error = 15.843730 mm\n\t'mixamorig:RightToeBase' : position error
-      = 4.107097 mm\n"
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -54,12 +45,12 @@ ModelImporter:
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
-      loopBlendPositionY: 0
+      loopBlendPositionY: 1
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 1
-      keepOriginalPositionY: 1
+      keepOriginalPositionY: 0
       keepOriginalPositionXZ: 0
-      heightFromFeet: 0
+      heightFromFeet: 1
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
@@ -94,6 +85,9 @@ ModelImporter:
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
     optimizeBones: 1
+    generateMeshLods: 0
+    meshLodGenerationFlags: 0
+    maximumMeshLod: -1
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8

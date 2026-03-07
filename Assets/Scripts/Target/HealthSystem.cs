@@ -6,7 +6,7 @@ namespace FPSDemo.Target
     public class HealthSystem : MonoBehaviour
     {
         [SerializeField] bool godMode = false;
-        [SerializeField] Transform rootModelTransform;
+        [SerializeField] int hitsToKill = 3;
 
         public string ActionDescription
         {
@@ -14,6 +14,7 @@ namespace FPSDemo.Target
         }
 
         bool isDead = false;
+        int _hitCount = 0;
         public event Action OnDeath;
         public event Action<Vector3> OnDamageTaken;
         public HumanTarget ThisTarget { get; private set; }
@@ -31,14 +32,13 @@ namespace FPSDemo.Target
             {
                 // Notify about damage taken at this position
                 OnDamageTaken?.Invoke(transform.position);
-                
-                //KillThisEntity();
-            }
-        }
 
-        public Transform GetRootModelTransform()
-        {
-            return rootModelTransform;
+                _hitCount++;
+                if (_hitCount >= hitsToKill)
+                {
+                    KillThisEntity();
+                }
+            }
         }
 
         void KillThisEntity()
