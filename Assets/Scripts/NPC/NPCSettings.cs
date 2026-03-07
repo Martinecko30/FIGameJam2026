@@ -11,5 +11,6 @@ namespace FPSDemo.NPC
         public AIDomainDefinition AIDomain;
         public float AlertAwarenessThreshold = 2f;
         public float AwarenessDeterioration = 0.1f;
+        public float AlertRadius = 30f;
     }
 }

@@ -175,6 +175,24 @@ namespace FPSDemo.NPC
             return this;
         }
 
+        public AIDomainBuilder Investigate()
+        {
+            Action("Investigate position");
+            {
+                HasState(AIWorldState.IsInvestigating);
+                HasState(AIWorldState.AwareOfEnemy, (byte)0); // don't investigate if already in combat
+
+                if (Pointer is FluidHTN.PrimitiveTasks.PrimitiveTask task)
+                {
+                    task.SetOperator(new Operators.InvestigateOperator());
+                }
+
+                SetState(AIWorldState.IsInvestigating, false, EffectType.PlanOnly);
+            }
+            End();
+            return this;
+        }
+
         public AIDomainBuilder TacticalPositioningSelector()
         {
             Select("Tactical Positioning Decision Tree");

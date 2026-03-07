@@ -104,6 +104,9 @@ namespace FPSDemo.NPC
         private IEnumerator _crouchCoroutine;
         private float _crouchAmount;
 
+        // investigation
+        private Vector3? _lookAtPosition;
+
         // target
         private float _targetSpeed;
         private float _targetSpeedCached;
@@ -114,6 +117,7 @@ namespace FPSDemo.NPC
         public float DistanceToDestination => _navAgent?.remainingDistance ?? 0.0f;
         public float StoppingDistance => _navAgent?.stoppingDistance ?? 0.0f;
         public bool IsStopped => _navAgent?.isStopped ?? true;
+        public bool HasPath => _navAgent != null && _navAgent.hasPath;
         public bool IsReloading => _isReloading;
         public bool IsShooting => _isShooting;
         public Vector3 Destination => _navAgent?.destination ?? Vector3.zero;
@@ -180,6 +184,11 @@ namespace FPSDemo.NPC
         public void ClearAimAtPoint()
         {
             _pointToAimAt = null;
+        }
+
+        public void SetLookAtPosition(Vector3? position)
+        {
+            _lookAtPosition = position;
         }
 
 
@@ -255,6 +264,10 @@ namespace FPSDemo.NPC
             if (_pointToAimAt != null)
             {
                 inputDirection = (_pointToAimAt.position - transform.position).normalized;
+            }
+            else if (_lookAtPosition.HasValue)
+            {
+                inputDirection = (_lookAtPosition.Value - transform.position).normalized;
             }
             else if (_navAgent.hasPath)
             {
@@ -412,6 +425,10 @@ namespace FPSDemo.NPC
             }
 
             _ikRig.weight = 0f;
+            for (int i = 1; i < _animator.layerCount; i++)
+            {
+                _animator.SetLayerWeight(i, 0f);
+            }
             _animator.SetTrigger(_animDeath);
             _navAgent.isStopped = true;
             enabled = false;

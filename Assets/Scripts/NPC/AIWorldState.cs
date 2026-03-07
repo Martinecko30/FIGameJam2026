@@ -16,6 +16,9 @@
         BestCoverDistance,           // byte - distance to best cover (0-255 discretized)
         CoverQualityScore,          // byte - tactical value of best available position
         RequiresRepositioning,       // bool - immediate repositioning needed
-        FlankingOpportunityAvailable // bool - flanking position available
+        FlankingOpportunityAvailable, // bool - flanking position available
+
+        // Investigation
+        IsInvestigating              // bool - has a scripted position to walk to
     }
 }

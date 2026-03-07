@@ -1515,6 +1515,8 @@ GameObject:
   - component: {fileID: 4286341724367834088}
   - component: {fileID: 4832982898588977342}
   - component: {fileID: -2090350393218632744}
+  - component: {fileID: 1917203156932474957}
+  - component: {fileID: 5019909181503377382}
   m_Layer: 6
   m_Name: Soldier
   m_TagString: Untagged
@@ -1553,7 +1555,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 3251590371590400996}
   _velocity: {x: 0, y: 0, z: 0}
-  _settings: {fileID: 11400000, guid: 5302994f3393ba64484117271b56c756, type: 2}
+  _settings: {fileID: 11400000, guid: 98cbce5454209d7469b430d8184afa62, type: 2}
   _controller: {fileID: 4286341724367834088}
 --- !u!136 &2773373085705929603
 CapsuleCollider:
@@ -1648,7 +1650,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   godMode: 0
-  rootModelTransform: {fileID: 0}
+  hitsToKill: 3
 --- !u!114 &4286341724367834088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1677,6 +1679,8 @@ MonoBehaviour:
   _runSpeed: 5
   _rotationSmoothTime: 0.12
   _speedChangeRate: 10
+  _meleeAttackRange: 2
+  _meleeAttackCooldown: 1
   _footstepAudioClips:
   - {fileID: 0}
   - {fileID: 0}
@@ -1697,6 +1701,7 @@ MonoBehaviour:
   _groundLayers:
     serializedVersion: 2
     m_Bits: 1
+  _playerHealthSystem: {fileID: 0}
 --- !u!195 &4832982898588977342
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1732,6 +1737,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _npc: {fileID: 771428641627287120}
+--- !u!114 &1917203156932474957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467778002156970774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 769c93a7d949ba24f891fc7ad5dad757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NPC::FPSDemo.NPC.Sensors.TouchSensor
+  _npc: {fileID: 771428641627287120}
+--- !u!114 &5019909181503377382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467778002156970774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d71b72336f32fb94daa696e1d91ddce9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NPC::FPSDemo.NPC.Sensors.HearingSensor
+  _maxHearingDistance: 20
+  _awarenessGainPerSecondAtMaxNoise: 2
+  _turnTowardSoundThreshold: 0.75
+  _debugMode: 1
 --- !u!1 &603353626836289854
 GameObject:
   m_ObjectHideFlags: 0
@@ -1838,6 +1872,7 @@ GameObject:
   - component: {fileID: -8679921383154817045}
   - component: {fileID: 3251590371590400996}
   - component: {fileID: 8640955011749986856}
+  - component: {fileID: 5261638882106244253}
   m_Layer: 7
   m_Name: SwatGuy
   m_TagString: Untagged
@@ -1873,7 +1908,7 @@ Animator:
   m_GameObject: {fileID: 919132149155446097}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 048e96ac77581a24f8bf3661720a235b, type: 2}
-  m_Controller: {fileID: 9100000, guid: cf94491d26e45b04cac656ed3b7557c0, type: 2}
+  m_Controller: {fileID: 9100000, guid: cec8cf8d5035d5d45bfed53dbb164793, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1901,6 +1936,18 @@ MonoBehaviour:
   - m_Rig: {fileID: 7157649932852908906}
     m_Active: 1
   m_Effectors: []
+--- !u!114 &5261638882106244253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132149155446097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a175890bc095b7d40862265a98fccf8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NPC::AnimatorRelay
 --- !u!1 &944927156297921104
 GameObject:
   m_ObjectHideFlags: 0
