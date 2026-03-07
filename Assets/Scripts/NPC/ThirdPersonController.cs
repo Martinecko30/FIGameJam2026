@@ -36,7 +36,6 @@ namespace FPSDemo.NPC
 
         [Tooltip("How fast the character turns to face movement direction")] [Range(0.0f, 0.3f)] [SerializeField]
         private float _rotationSmoothTime = 0.12f;
-
         [Header("Melee")] [SerializeField] private float _meleeAttackRange = 2f;
         [SerializeField] private float _meleeAttackCooldown = 1f;
 

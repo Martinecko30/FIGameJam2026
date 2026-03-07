@@ -15,6 +15,8 @@ namespace FPSDemo.Target
 
         bool isDead = false;
         int _hitCount = 0;
+        public int HitCount => _hitCount;
+        public int HitsToKill => hitsToKill;
         public event Action OnDeath;
         public event Action<Vector3, HumanTarget> OnDamageTaken;
         public HumanTarget ThisTarget { get; private set; }
@@ -39,9 +41,8 @@ namespace FPSDemo.Target
             if (!isDead && shotBy != ThisTarget && !godMode)
             {
                 // Notify about damage taken at this position
-                OnDamageTaken?.Invoke(transform.position, shotBy);
-
                 _hitCount++;
+                OnDamageTaken?.Invoke(transform.position, shotBy);
                 if (_hitCount >= hitsToKill)
                 {
                     KillThisEntity();
