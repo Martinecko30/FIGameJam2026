@@ -24,7 +24,8 @@ namespace FPSDemo.NPC
         private float _npcCooldownUntil;
         private float _nextCombatTauntTime;
         private bool _isInCombat;
-        private readonly Dictionary<BarkType, int> _lastPlayedIndex = new()
+        // Shared across all NPC instances so no two NPCs repeat the same bark back-to-back
+        private static readonly Dictionary<BarkType, int> _lastPlayedIndex = new()
         {
             { BarkType.Damage,      -1 },
             { BarkType.Death,       -1 },
@@ -77,7 +78,7 @@ namespace FPSDemo.NPC
             if (count == 1) return 0;
             int last = _lastPlayedIndex[type];
             int index = Random.Range(0, count - 1);
-            if (index >= last) index++;
+            if (last >= 0 && index >= last) index++;
             _lastPlayedIndex[type] = index;
             return index;
         }
