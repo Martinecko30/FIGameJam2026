@@ -94,11 +94,6 @@ namespace FPSDemo.Player
                 _player = GetComponentInParent<Player>();
             }
 
-            if (_playerLeaning == null)
-            {
-                _playerLeaning = GetComponentInParent<PlayerLeaning>();
-            }
-
             if (_camera == null)
             {
                 _camera = GetComponentInChildren<Camera>();
@@ -107,6 +102,16 @@ namespace FPSDemo.Player
 
         void Awake()
         {
+            _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+            if (_camera == null)
+            {
+                _camera = GetComponentInChildren<Camera>();
+            }
+            
+            if (_playerLeaning == null)
+            {
+                _playerLeaning = _player.GetComponent<PlayerLeaning>();
+            }
             CameraOffset = _camera.transform.parent;
             _originalRotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, 0f);
             _targetCamYPos = _standingCamHeight;

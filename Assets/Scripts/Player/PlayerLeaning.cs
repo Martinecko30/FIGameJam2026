@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace FPSDemo.Player
@@ -37,6 +38,11 @@ namespace FPSDemo.Player
         public float CurrentLeanDistance { get; private set; }
 
         // ========================================================= UNITY METHODS
+
+        private void Awake()
+        {
+            _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        }
 
         private void OnValidate()
         {
