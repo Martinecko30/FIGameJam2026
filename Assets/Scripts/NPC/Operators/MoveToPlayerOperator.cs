@@ -16,6 +16,7 @@ namespace FPSDemo.NPC.Operators
             }
 
             c.ThisController.ApplyPlayerAsAimAtPoint();
+            c.ThisController.ApplyRunSpeed();
             return TaskStatus.Continue;
         }
 

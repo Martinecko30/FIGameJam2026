@@ -257,7 +257,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerTransform: {fileID: 0}
   _pointToAimAt: {fileID: 0}
   _pointToAimAtYDif: 0.5
   _rootModel: {fileID: 1037781512403855091}
@@ -269,8 +268,8 @@ MonoBehaviour:
   angleToTargetToEngageIK: 50
   _speedToCrouch: 0.25
   _crouchedSpeed: 1.5
-  _walkSpeed: 2
-  _runSpeed: 5
+  _walkSpeed: 1
+  _runSpeed: 2
   _rotationSmoothTime: 0.12
   _meleeAttackRange: 2
   _meleeAttackCooldown: 1
@@ -301,7 +300,6 @@ MonoBehaviour:
   _groundLayers:
     serializedVersion: 2
     m_Bits: 1
-  _playerHealthSystem: {fileID: 0}
 --- !u!195 &4832982898588977342
 NavMeshAgent:
   m_ObjectHideFlags: 0
