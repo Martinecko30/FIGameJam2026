@@ -8,6 +8,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Managers
@@ -27,6 +28,16 @@ namespace Managers
 
         private void Start()
         {
+            SceneManager.sceneLoaded += (_, _) => Initialize();
+            Initialize();
+        }
+
+        public void Initialize()
+        {
+            choicesParent = GameObject.Find("DialogueOptions").transform;
+            dialogueText = GameObject.Find("DialogueText").GetComponent<TextMeshProUGUI>();
+            prefab = Resources.Load<Button>("Prefabs/ChoiceButtonPrefab");
+            
             InputSystem.onAnyButtonPress.Call(delegate
             {
                 if (!Application.isPlaying)
