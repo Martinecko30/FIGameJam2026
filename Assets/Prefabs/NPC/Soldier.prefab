@@ -423,7 +423,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -494,13 +494,21 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 35ae876f7ec96214b98aabe6ab7bd53a, type: 3}
   - {fileID: 8300000, guid: 33ccd2a0a8dbb1345bb5300f67d83972, type: 3}
   - {fileID: 8300000, guid: cf46726b3feb5e1428c3c10ff26f6bf7, type: 3}
-  - {fileID: 8300000, guid: f446ca8e33e06664f959fa0336c0f65a, type: 3}
-  - {fileID: 8300000, guid: a8d8c441b7b693944b4eb2ba1515b5aa, type: 3}
+  - {fileID: 8300000, guid: 874e383befd402f4bb82a1b133fd29ee, type: 3}
   _investigateBarks: []
   _combatTauntBarks:
+  - {fileID: 8300000, guid: 0349c5e7ef6098549a8c85a38ba6c7df, type: 3}
+  - {fileID: 8300000, guid: 4b698a95259be0d41ade017d57884896, type: 3}
+  - {fileID: 8300000, guid: c3094af86fd0c044092b8653547be2e1, type: 3}
+  - {fileID: 8300000, guid: b9fb0d9b949aa6541ac029fa50b986d0, type: 3}
+  - {fileID: 8300000, guid: bf0796a4cf00ef14d9a19ac307ca9535, type: 3}
   - {fileID: 8300000, guid: 589ab5567bbaaec489f8f68dfc41ab7f, type: 3}
+  _hitLandedBarks:
+  - {fileID: 8300000, guid: 48e81969c6bfbf348b20c9a44e92eb6e, type: 3}
+  - {fileID: 8300000, guid: dc249ad31029ccd43a0a54a363b9f618, type: 3}
+  - {fileID: 8300000, guid: a54eb2c86bb3e45499d718ae611db276, type: 3}
   _perNPCCooldown: 5
-  _combatTauntInterval: 20
+  _combatTauntInterval: 10
 --- !u!1 &473016288455014247
 GameObject:
   m_ObjectHideFlags: 0

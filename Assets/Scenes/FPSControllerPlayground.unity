@@ -274,6 +274,7 @@ MonoBehaviour:
   _investigateBarks: []
   _combatTauntBarks:
   - {fileID: 8300000, guid: 47e2223128f88404b95c3f64d0ca4621, type: 3}
+  _hitLandedBarks: []
   _perNPCCooldown: 5
   _combatTauntInterval: 8
 --- !u!64 &118957263
@@ -6086,6 +6087,10 @@ PrefabInstance:
     - target: {fileID: 1119332314383467898, guid: 00594d37d3d43a04e8fa57f9f6e18992, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3106259538026945484, guid: 00594d37d3d43a04e8fa57f9f6e18992, type: 3}
+      propertyPath: hitsToKill
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 4728166184217533217, guid: 00594d37d3d43a04e8fa57f9f6e18992, type: 3}
       propertyPath: _walkNoiseLevel

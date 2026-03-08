@@ -30,6 +30,8 @@ namespace FPSDemo.NPC
 
         private WeaponFsm _weaponFsm;
         private HealthSystem _healthSystem;
+        private HumanTarget _thisHumanTarget;
+        private HealthSystem _playerHealthSystem;
 
         // ========================================================= PUBLIC PROPERTIES
 
@@ -58,12 +60,22 @@ namespace FPSDemo.NPC
 		{
 			_context.Init(_settings);
 
+            _thisHumanTarget = GetComponent<HumanTarget>();
+
             // Subscribe to damage events
             _healthSystem = GetComponent<HealthSystem>();
             if (_healthSystem != null)
             {
                 _healthSystem.OnDamageTaken += OnDamageTaken;
                 _healthSystem.OnDeath += OnDeath;
+            }
+
+            // Subscribe to player health to detect when this NPC lands a hit
+            var playerTarget = TargetRegister.instance.ListOfActiveTargetsBLUFORTeam.Find(t => t.IsPlayer);
+            if (playerTarget != null)
+            {
+                _playerHealthSystem = playerTarget.healthSystem;
+                _playerHealthSystem.OnDamageTaken += OnPlayerDamageTaken;
             }
 
             AlertSystem.OnEnemySpotted += OnEnemySpottedAlert;
@@ -115,6 +127,12 @@ namespace FPSDemo.NPC
             _context.SetState(AIWorldState.CurrentPositionCompromised, true, EffectType.Permanent);
         }
 
+        private void OnPlayerDamageTaken(Vector3 _, HumanTarget shotBy)
+        {
+            if (shotBy == _thisHumanTarget)
+                _barkSystem?.TriggerBark(BarkType.HitLanded);
+        }
+
         private void OnDeath()
         {
             _barkSystem?.TriggerBark(BarkType.Death);
@@ -143,6 +161,9 @@ namespace FPSDemo.NPC
                 _healthSystem.OnDamageTaken -= OnDamageTaken;
                 _healthSystem.OnDeath -= OnDeath;
             }
+
+            if (_playerHealthSystem != null)
+                _playerHealthSystem.OnDamageTaken -= OnPlayerDamageTaken;
 
             AlertSystem.OnEnemySpotted -= OnEnemySpottedAlert;
         }

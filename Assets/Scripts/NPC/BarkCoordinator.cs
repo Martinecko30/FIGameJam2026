@@ -18,5 +18,10 @@ namespace FPSDemo.NPC
             _globalSilenceUntil = Time.time + clipLength;
             return true;
         }
+
+        public static void ForceReserve(float clipLength)
+        {
+            _globalSilenceUntil = Time.time + clipLength;
+        }
     }
 }

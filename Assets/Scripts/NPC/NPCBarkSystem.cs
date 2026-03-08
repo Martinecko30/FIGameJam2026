@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace FPSDemo.NPC
 {
-    public enum BarkType { Damage, Death, Investigate, CombatTaunt }
+    public enum BarkType { Damage, Death, Investigate, CombatTaunt, HitLanded }
 
     public class NPCBarkSystem : MonoBehaviour
     {
@@ -14,6 +14,7 @@ namespace FPSDemo.NPC
         [SerializeField] private AudioClip[] _deathBarks;
         [SerializeField] private AudioClip[] _investigateBarks;
         [SerializeField] private AudioClip[] _combatTauntBarks;
+        [SerializeField] private AudioClip[] _hitLandedBarks;
 
         [Header("Timing")]
         [Tooltip("Minimum seconds before this NPC can bark again.")]
@@ -24,6 +25,7 @@ namespace FPSDemo.NPC
         private float _npcCooldownUntil;
         private float _nextCombatTauntTime;
         private bool _isInCombat;
+
         // Shared across all NPC instances so no two NPCs repeat the same bark back-to-back
         private static readonly Dictionary<BarkType, int> _lastPlayedIndex = new()
         {
@@ -31,6 +33,17 @@ namespace FPSDemo.NPC
             { BarkType.Death,       -1 },
             { BarkType.Investigate, -1 },
             { BarkType.CombatTaunt, -1 },
+            { BarkType.HitLanded,   -1 },
+        };
+
+        // Per-category global end times — at most one bark per category playing at a time
+        private static readonly Dictionary<BarkType, float> _categoryEndTimes = new()
+        {
+            { BarkType.Damage,      0f },
+            { BarkType.Death,       0f },
+            { BarkType.Investigate, 0f },
+            { BarkType.CombatTaunt, 0f },
+            { BarkType.HitLanded,   0f },
         };
 
         public void SetInCombat(bool value)
@@ -59,16 +72,30 @@ namespace FPSDemo.NPC
 
             if (type == BarkType.Death)
             {
-                // Death always plays — cut off any current bark and interrupt cooldowns
+                // Death always plays — cuts off everything on this NPC
                 _audioSource.Stop();
-                BarkCoordinator.TryReserve(clip.length);
+                _categoryEndTimes[type] = Time.time + clip.length;
+                _npcCooldownUntil = Time.time + _perNPCCooldown;
                 _audioSource.PlayOneShot(clip);
                 return;
             }
 
-            if (Time.time < _npcCooldownUntil) return;
-            if (!BarkCoordinator.TryReserve(clip.length)) return;
+            if (type == BarkType.HitLanded)
+            {
+                // HitLanded cuts through low-priority barks but won't override another HitLanded
+                if (Time.time < _categoryEndTimes[type]) return;
+                _audioSource.Stop();
+                _categoryEndTimes[type] = Time.time + clip.length;
+                _npcCooldownUntil = Time.time + _perNPCCooldown;
+                _audioSource.PlayOneShot(clip);
+                return;
+            }
 
+            // Low-priority barks: respect per-NPC cooldown and own category slot
+            if (Time.time < _npcCooldownUntil) return;
+            if (Time.time < _categoryEndTimes[type]) return;
+
+            _categoryEndTimes[type] = Time.time + clip.length;
             _npcCooldownUntil = Time.time + _perNPCCooldown;
             _audioSource.PlayOneShot(clip);
         }
@@ -89,6 +116,7 @@ namespace FPSDemo.NPC
             BarkType.Death       => _deathBarks,
             BarkType.Investigate => _investigateBarks,
             BarkType.CombatTaunt => _combatTauntBarks,
+            BarkType.HitLanded   => _hitLandedBarks,
             _                    => null
         };
     }
