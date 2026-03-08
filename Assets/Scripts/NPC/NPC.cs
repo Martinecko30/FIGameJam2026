@@ -59,6 +59,7 @@ namespace FPSDemo.NPC
 		public void Start()
 		{
 			_context.Init(_settings);
+            GuardRegistry.Register(this);
 
             _thisHumanTarget = GetComponent<HumanTarget>();
 
@@ -158,6 +159,7 @@ namespace FPSDemo.NPC
         
         private void OnDestroy()
         {
+            GuardRegistry.Unregister(this);
             if (_healthSystem != null)
             {
                 _healthSystem.OnDamageTaken -= OnDamageTaken;
