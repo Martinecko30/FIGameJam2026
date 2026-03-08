@@ -10,7 +10,7 @@ namespace FPSDemo.NPC
     {
         // ========================================================= INSPECTOR FIELDS
 
-        [SerializeField] Transform _playerTransform;
+        Transform _playerTransform;
         [SerializeField] Transform _pointToAimAt;
         [SerializeField] private float _pointToAimAtYDif = 0.5f;
         [SerializeField] Transform _rootModel;
@@ -85,7 +85,7 @@ namespace FPSDemo.NPC
         private float _terminalVelocity = 53.0f;
 
         private HumanTarget _thisTarget;
-        [SerializeField] HealthSystem _playerHealthSystem;
+        HealthSystem _playerHealthSystem;
         private float _lastMeleeAttackTime = Mathf.NegativeInfinity;
         private int _animAttack;
 
@@ -139,6 +139,12 @@ namespace FPSDemo.NPC
         {
             _navAgent = GetComponent<NavMeshAgent>();
         }
+
+        private void Awake()
+        {
+            _playerTransform = FindAnyObjectByType<Camera>().transform;
+            _playerHealthSystem = GameObject.FindGameObjectWithTag("Player").GetComponent<HealthSystem>();
+        }  
 
         private void Start()
         {
