@@ -566,8 +566,8 @@ MonoBehaviour:
   angleToTargetToEngageIK: 50
   _speedToCrouch: 0.25
   _crouchedSpeed: 1.5
-  _walkSpeed: 3
-  _runSpeed: 6
+  _walkSpeed: 1
+  _runSpeed: 3
   _rotationSmoothTime: 0.12
   _meleeAttackRange: 3
   _meleeAttackCooldown: 1

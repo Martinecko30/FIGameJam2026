@@ -157,6 +157,10 @@ namespace FPSDemo.NPC
             _targetSpeedCached = _walkSpeed;
 
             _thisTarget = GetComponent<HumanTarget>();
+
+            // TickRotateAgent owns all rotation — disable NavMesh agent's built-in rotation
+            // which only fires meaningfully at higher speeds and conflicts with our smooth damp logic
+            _navAgent.updateRotation = false;
         }
 
         private void Update()
@@ -281,7 +285,7 @@ namespace FPSDemo.NPC
             {
                 inputDirection = (_lookAtPosition.Value - transform.position).normalized;
             }
-            else if (_navAgent.hasPath)
+            else if (_navAgent.hasPath && !_navAgent.isStopped)
             {
                 inputDirection = (_navAgent.steeringTarget - transform.position).normalized;
             }

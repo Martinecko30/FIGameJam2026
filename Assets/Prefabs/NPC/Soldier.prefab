@@ -219,9 +219,9 @@ MonoBehaviour:
   _multFocusVertical: 1
   _multVertUpper: 0.1
   _multVertLower: 0.2
-  _visionFocusFar: 60
-  _visionFocusDistance: 20
-  _visionPeripheralNearDistance: 10
+  _visionFocusFar: 10
+  _visionFocusDistance: 5
+  _visionPeripheralNearDistance: 5
   _visionPeripheralRearDistance: 2
   _visionFocusAngle: 60
   _visionPeripheralNearAngle: 80
