@@ -69,27 +69,9 @@ namespace Managers
         {
             questCompletion.CompleteGoal(subGoal);
             ShowQuest(ActiveQuest);
-            
-            if (questCompletion.CompletedGoals.Count == ActiveQuest.subGoals.Count)
-                CompleteQuest();
-        }
 
-        public static bool TryGetSubGoalByCompletion(
-            Quest quest,
-            CompletionType completionType,
-            out SubGoal subGoal)
-        {
-            foreach (var goal in quest.subGoals)
-            {
-                if (goal.completionType == completionType)
-                {
-                    subGoal = goal;
-                    return true;
-                }
-            }
-            
-            subGoal = null;
-            return false;
+            if (questCompletion.AllNecessaryCompleted())
+                CompleteQuest();
         }
     }
 }

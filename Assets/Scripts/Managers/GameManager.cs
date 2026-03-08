@@ -2,6 +2,7 @@
 using Core;
 using FPSDemo.Core;
 using FPSDemo.Input;
+using FPSDemo.NPC;
 using FPSDemo.Target;
 using Quests;
 using UnityEngine;
@@ -82,13 +83,6 @@ namespace Managers
         {
             inputManager.SetActiveAllGameplayControls(true);
             Game.ToggleCursor(false);
-            
-            var activeQuest = QuestManager.Instance.ActiveQuest;
-            if (QuestManager.TryGetSubGoalByCompletion(activeQuest, CompletionType.Dialog, out var subGoal))
-            {
-                if (subGoal.subName == "Promluv si s bláznem")
-                    QuestManager.Instance.CompleteSubGoal(subGoal);
-            }
         }
 
         private void PlayerDied()
@@ -99,12 +93,8 @@ namespace Managers
         private void PlayerDamaged(Vector3 position, HumanTarget attacker)
         {
             if (currentArea != null && !currentArea.IsActive && currentArea.AreaTrigger != null)
-            {
                 if (currentArea.AreaTrigger.bounds.Contains(position))
-                {
                     currentArea.Activate();
-                }
-            }
         }
 
         private void Restart()
@@ -121,9 +111,7 @@ namespace Managers
         public void ClearArea(Area area)
         {
             if (currentArea == area)
-            {
                 currentArea = null;
-            }
         }
         
         public void CompleteCurrentArea()

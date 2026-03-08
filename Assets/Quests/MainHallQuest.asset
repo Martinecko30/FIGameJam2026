@@ -10,16 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3cbf07f87fdcb0443b4b3c185ff766e6, type: 3}
-  m_Name: SecondQuest
+  m_Name: MainHallQuest
   m_EditorClassIdentifier: Assembly-CSharp::Quests.Quest
-  questName: Hrad?
+  questName: Dobrou chut!
   description: Default description
-  nextQuest: {fileID: 0}
+  nextQuest: {fileID: 11400000, guid: 90464dbcc1d99fd469a8e2542f11ea03, type: 2}
   subGoals:
-  - subName: "Vy\u010Disti oblast"
-    subDescription: "Pozab\xEDjej v\u0161echny nep\u0159\xEDtele"
-    goalPosition: {x: 0, y: 0}
-    useRadius: 0
-    radius: 0
-    circleColor: {r: 0, g: 0, b: 0, a: 0}
-    completionType: 2
+  - {fileID: 11400000, guid: 9b3fc3fd5a580164d899eb14fb3f3e6d, type: 2}

@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3cbf07f87fdcb0443b4b3c185ff766e6, type: 3}
-  m_Name: FirstQuest
+  m_Name: FinalQuest
   m_EditorClassIdentifier: Assembly-CSharp::Quests.Quest
-  questName: Kde jsem?
-  description: Kde jsem?
-  nextQuest: {fileID: 11400000, guid: 3bfc6f0f4be31d649a95c151d580e35d, type: 2}
+  questName: "Dokon\u010Di to"
+  description: "Zbav se genr\xE1la"
+  nextQuest: {fileID: 0}
   subGoals:
-  - {fileID: 11400000, guid: a1599c52f981b3e4eb08e0470450077b, type: 2}
-  - {fileID: 11400000, guid: 2363b606c07e83448abc658944c84dd2, type: 2}
+  - {fileID: 11400000, guid: ec0412943dfecd04bae73e24756941e9, type: 2}
+  - {fileID: 11400000, guid: 304a476fb2e3e4d45a4813bed4f7217a, type: 2}
+  - {fileID: 11400000, guid: 60837e85a0c53fd42a1cc0af195aa350, type: 2}
