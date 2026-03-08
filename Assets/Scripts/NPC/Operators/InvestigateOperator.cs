@@ -20,6 +20,7 @@ namespace FPSDemo.NPC.Operators
             c.ThisController.ApplyWalkSpeed();
             c.ThisController.ClearAimAtPoint();
             c.ThisController.SetDestination(hit.position);
+            c.ThisNPC.Bark(BarkType.Investigate);
 
             return TaskStatus.Continue;
         }

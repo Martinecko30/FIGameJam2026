@@ -24,6 +24,7 @@ namespace FPSDemo.NPC
 
         public NPC ThisNPC { get; }
         public HumanTarget ThisTarget { get; }
+        public PatrolPath PatrolPath => ThisNPC.PatrolPath;
         public ThirdPersonController ThisController => ThisNPC?.Controller;
 
         public HumanTarget CurrentEnemy { get; private set; }
@@ -146,6 +147,12 @@ namespace FPSDemo.NPC
             targetData.awarenessOfThisTarget = Mathf.Max(0f,
                 targetData.awarenessOfThisTarget - AwarenessDeterioration * Time.deltaTime);
         }
+
+
+        // ========================================================= PATROL
+
+        public int PatrolIndex { get; set; } = 0;
+        public int PatrolDirection { get; set; } = 1;
 
 
         // ========================================================= INVESTIGATION

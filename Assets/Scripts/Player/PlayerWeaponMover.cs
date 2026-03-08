@@ -40,6 +40,10 @@ namespace FPSDemo.Player
 		[SerializeField] private Vector3 _breathSwayAmount = Vector3.zero;
 		[SerializeField] private Vector3 _breathSwaySpeed = Vector3.zero;
 
+        [Header("Footsteps")]
+        [SerializeField] private AudioClip[] _footstepClips;
+        [SerializeField] [Range(0f, 1f)] private float _footstepVolume = 0.5f;
+
         [Header("Dependencies")]
         [SerializeField] private CameraMovement _cameraMovement;
         [SerializeField] private Player _player;
@@ -75,6 +79,9 @@ namespace FPSDemo.Player
         // breath sway
         private Vector3 _targetBreathSway = Vector3.zero;
         private Vector3 _targetBreathSwaySmoothed = Vector3.zero;
+
+        // footsteps
+        private float _prevBobY;
 
 
         // ========================================================= UNITY METHODS
@@ -127,6 +134,7 @@ namespace FPSDemo.Player
 			UpdateWeaponPosition();
 			UpdateWeaponSway();
 			WeaponBreathingSway();
+			TickFootsteps();
 		}
 
         private void OnAddRecoilToTheTargetRotation()
@@ -292,6 +300,28 @@ namespace FPSDemo.Player
 				}
 			}
 		}
+
+
+        // ========================================================= FOOTSTEPS
+
+        void TickFootsteps()
+        {
+            if (!_player.IsMoving() || !_player.IsGrounded)
+            {
+                _prevBobY = 0f;
+                return;
+            }
+
+            float currentBobY = _finalBob.y;
+            bool downCrossing = _prevBobY > 0f && currentBobY <= 0f;
+            bool upCrossing = _prevBobY < 0f && currentBobY >= 0f;
+            if ((downCrossing || upCrossing) && _footstepClips != null && _footstepClips.Length > 0)
+            {
+                var clip = _footstepClips[UnityEngine.Random.Range(0, _footstepClips.Length)];
+                AudioSource.PlayClipAtPoint(clip, _player.transform.position, _footstepVolume);
+            }
+            _prevBobY = currentBobY;
+        }
 
 
         // ========================================================= PRIVATE ENUMS

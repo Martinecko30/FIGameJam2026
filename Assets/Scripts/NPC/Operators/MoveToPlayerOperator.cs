@@ -14,50 +14,26 @@ namespace FPSDemo.NPC.Operators
                 c.ThisController.ClearAimAtPoint();
                 return TaskStatus.Failure;
             }
-            
+
             c.ThisController.ApplyPlayerAsAimAtPoint();
-            var dir = (c.ThisNPC.transform.position - c.CurrentEnemy.transform.position).normalized;
-            var destination = c.CurrentEnemy.transform.position + dir * c.IdealEnemyRange;
-            if (NavMesh.SamplePosition(destination, out var hit, 1.0f, NavMesh.AllAreas))
-            {
-                c.ThisController.SetDestination(hit.position);
-            }
-
-            if (c.ThisController.DistanceToDestination > c.ThisController.StoppingDistance)
-            {
-                return TaskStatus.Continue;
-            }
-
-
-            return TaskStatus.Success;
+            return TaskStatus.Continue;
         }
 
         public TaskStatus UpdateNavigation(AIContext c)
         {
             if (c.CurrentEnemy == null)
-            {
                 return TaskStatus.Failure;
-            }
 
-            if (c.ThisController.DistanceToDestination <= c.ThisController.StoppingDistance)
-            {
-                c.ThisController.SetDestination(null);
-                return TaskStatus.Success;
-            }
-
+            var distToEnemy = Vector3.Distance(c.ThisNPC.transform.position, c.CurrentEnemy.transform.position);
             var dir = (c.ThisNPC.transform.position - c.CurrentEnemy.transform.position).normalized;
             var destination = c.CurrentEnemy.transform.position + dir * c.IdealEnemyRange;
             if (NavMesh.SamplePosition(destination, out var hit, 1.0f, NavMesh.AllAreas))
-            {
                 c.ThisController.SetDestination(hit.position);
-            }
 
-            if (c.ThisController.DistanceToDestination > c.ThisController.StoppingDistance)
-            {
-                return TaskStatus.Continue;
-            }
+            if (distToEnemy <= c.ThisController.MeleeRange)
+                c.ThisController.TriggerMeleeAttack();
 
-            return TaskStatus.Failure;
+            return TaskStatus.Continue;
         }
 
         public TaskStatus Start(IContext ctx)

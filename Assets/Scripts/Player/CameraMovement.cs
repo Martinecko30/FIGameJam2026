@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using FPSDemo.Target;
 
 namespace FPSDemo.Player
 {
@@ -46,6 +47,11 @@ namespace FPSDemo.Player
         float _defaultFOV = 65f;
         [SerializeField]
         float _rotationSnapThreshold = 0.1f;
+
+        [Header("Hit Recoil")]
+        [SerializeField] private float _hitRecoilPitch = 4f;
+        [SerializeField] private float _hitRecoilYawRange = 1.5f;
+        [SerializeField] private float _recoilRecoverySpeed = 6f;
         // ========================================================= PRIVATE FIELDS
 
         private float _targetCamYPos;
@@ -63,10 +69,14 @@ namespace FPSDemo.Player
         private float _targetFOV;
         private Quaternion _baseCameraRotation;
 
+        private float _recoilPitch;
+        private float _recoilYaw;
+
         private Camera _camera;
         private Rigidbody _rb;
         private Player _player;
         private PlayerLeaning _playerLeaning;
+        private HealthSystem _healthSystem;
 
         // ========================================================= PROPERTIES
 
@@ -107,6 +117,7 @@ namespace FPSDemo.Player
             _baseCameraRotation = CameraOffset.rotation;
             _currentMaxXAngle = _defaultXAngleLimit;
             _rb = _player.GetComponent<Rigidbody>();
+            _healthSystem = _player.GetComponent<HealthSystem>();
         }
 
         void Start()
@@ -121,6 +132,7 @@ namespace FPSDemo.Player
             _player.OnAfterMove += OnUpdateCamera;
             _player.OnTeleport += OnTeleportYCamPosUpdate;
             _player.OnTeleportRotate += UpdateRotation;
+            if (_healthSystem != null) _healthSystem.OnDamageTaken += OnDamageTaken;
         }
 
         void OnDisable()
@@ -129,6 +141,7 @@ namespace FPSDemo.Player
             _player.OnAfterMove -= OnUpdateCamera;
             _player.OnTeleport -= OnTeleportYCamPosUpdate;
             _player.OnTeleportRotate -= UpdateRotation;
+            if (_healthSystem != null) _healthSystem.OnDamageTaken -= OnDamageTaken;
         }
 
         // ========================================================= TICK
@@ -152,7 +165,10 @@ namespace FPSDemo.Player
             _baseCameraRotation = Quaternion.Lerp(_baseCameraRotation,
                 transform.rotation * Quaternion.AngleAxis(_cameraRotation.y, Vector3.right),
                 _smoothSpeed * Time.deltaTime);
-            CameraOffset.rotation = _baseCameraRotation * Quaternion.AngleAxis(_cameraRotation.z, Vector3.forward);
+            _recoilPitch = Mathf.Lerp(_recoilPitch, 0f, _recoilRecoverySpeed * Time.deltaTime);
+            _recoilYaw = Mathf.Lerp(_recoilYaw, 0f, _recoilRecoverySpeed * Time.deltaTime);
+            CameraOffset.rotation = _baseCameraRotation * Quaternion.AngleAxis(_cameraRotation.z, Vector3.forward)
+                * Quaternion.Euler(_recoilPitch, _recoilYaw, 0f);
 
             _previousCameraRotation = _cameraRotation;
         }
@@ -231,6 +247,15 @@ namespace FPSDemo.Player
             _previousCameraRotation = _cameraRotation;
             RotateTowardsFinished = true;
         }
+
+        // ========================================================= HIT RECOIL
+
+        private void OnDamageTaken(Vector3 _, HumanTarget __)
+        {
+            _recoilPitch -= _hitRecoilPitch;
+            _recoilYaw += Random.Range(-_hitRecoilYawRange, _hitRecoilYawRange);
+        }
+
 
         // ========================================================= PLAYER CALLBACKS
 

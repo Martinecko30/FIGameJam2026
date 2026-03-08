@@ -17,6 +17,8 @@ namespace FPSDemo.NPC
 		[SerializeField] private Vector3 _velocity;
         [SerializeField] private NPCSettings _settings;
         [SerializeField] private ThirdPersonController _controller;
+        [SerializeField] private PatrolPath _patrolPath;
+        [SerializeField] private NPCBarkSystem _barkSystem;
 
 
         // ========================================================= PRIVATE FIELDS
@@ -28,11 +30,14 @@ namespace FPSDemo.NPC
 
         private WeaponFsm _weaponFsm;
         private HealthSystem _healthSystem;
+        private HumanTarget _thisHumanTarget;
+        private HealthSystem _playerHealthSystem;
 
         // ========================================================= PUBLIC PROPERTIES
 
         public ThirdPersonController Controller => _controller;
         public AIContext Context => _context;
+        public PatrolPath PatrolPath => _patrolPath;
 
         // ========================================================= UNITY METHODS
 
@@ -55,12 +60,22 @@ namespace FPSDemo.NPC
 		{
 			_context.Init(_settings);
 
+            _thisHumanTarget = GetComponent<HumanTarget>();
+
             // Subscribe to damage events
             _healthSystem = GetComponent<HealthSystem>();
             if (_healthSystem != null)
             {
                 _healthSystem.OnDamageTaken += OnDamageTaken;
                 _healthSystem.OnDeath += OnDeath;
+            }
+
+            // Subscribe to player health to detect when this NPC lands a hit
+            var playerTarget = TargetRegister.instance.ListOfActiveTargetsBLUFORTeam.Find(t => t.IsPlayer);
+            if (playerTarget != null)
+            {
+                _playerHealthSystem = playerTarget.healthSystem;
+                _playerHealthSystem.OnDamageTaken += OnPlayerDamageTaken;
             }
 
             AlertSystem.OnEnemySpotted += OnEnemySpottedAlert;
@@ -106,17 +121,31 @@ namespace FPSDemo.NPC
                 _context.SetAwarenessOfThisEnemy(attacker, _context.AlertAwarenessThreshold);
             }
 
+            if (_healthSystem.HitCount < _healthSystem.HitsToKill)
+                _barkSystem?.TriggerBark(BarkType.Damage);
             _context.RecordDamageAtCurrentPosition();
             _context.SetState(AIWorldState.CurrentPositionCompromised, true, EffectType.Permanent);
         }
 
+        private void OnPlayerDamageTaken(Vector3 _, HumanTarget shotBy)
+        {
+            if (shotBy == _thisHumanTarget)
+                _barkSystem?.TriggerBark(BarkType.HitLanded);
+        }
+
         private void OnDeath()
         {
+            _barkSystem?.TriggerBark(BarkType.Death);
+            if (_barkSystem != null) _barkSystem.enabled = false;
             _controller.Death();
             var visionSensor = GetComponent<VisionSensor>();
             if (visionSensor != null) visionSensor.enabled = false;
+            foreach (var col in GetComponentsInChildren<Collider>())
+                col.isTrigger = true;
             enabled = false;
         }
+
+        public void Bark(BarkType type) => _barkSystem?.TriggerBark(type);
 
         public void Update()
         {
@@ -124,6 +153,7 @@ namespace FPSDemo.NPC
             _planner.Tick(_domain, _context);
 
             _weaponFsm.Tick(_context);
+            _barkSystem?.SetInCombat(_context.HasState(AIWorldState.AwareOfEnemy));
         }
         
         private void OnDestroy()
@@ -133,6 +163,9 @@ namespace FPSDemo.NPC
                 _healthSystem.OnDamageTaken -= OnDamageTaken;
                 _healthSystem.OnDeath -= OnDeath;
             }
+
+            if (_playerHealthSystem != null)
+                _playerHealthSystem.OnDamageTaken -= OnPlayerDamageTaken;
 
             AlertSystem.OnEnemySpotted -= OnEnemySpottedAlert;
         }

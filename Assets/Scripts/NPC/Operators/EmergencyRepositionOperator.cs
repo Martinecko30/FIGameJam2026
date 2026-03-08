@@ -13,7 +13,9 @@ namespace FPSDemo.NPC.Operators
                 // Try to move away from current enemy
                 if (c.CurrentEnemy != null)
                 {
-                    var directionAwayFromEnemy = (c.ThisNPC.transform.position - c.CurrentEnemy.transform.position).normalized;
+                    var diff = c.ThisNPC.transform.position - c.CurrentEnemy.transform.position;
+                    diff.y = 0f;
+                    var directionAwayFromEnemy = diff.normalized;
                     var fallbackDestination = c.ThisNPC.transform.position + directionAwayFromEnemy * 15f;
                     
                     if (NavMesh.SamplePosition(fallbackDestination, out var fallbackHit, 5.0f, NavMesh.AllAreas))

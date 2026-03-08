@@ -175,6 +175,22 @@ namespace FPSDemo.NPC
             return this;
         }
 
+        public AIDomainBuilder Patrol()
+        {
+            Action("Patrol");
+            {
+                HasState(AIWorldState.AwareOfEnemy, (byte)0);
+                HasState(AIWorldState.IsInvestigating, (byte)0);
+
+                if (Pointer is FluidHTN.PrimitiveTasks.PrimitiveTask task)
+                {
+                    task.SetOperator(new Operators.PatrolOperator());
+                }
+            }
+            End();
+            return this;
+        }
+
         public AIDomainBuilder Investigate()
         {
             Action("Investigate position");

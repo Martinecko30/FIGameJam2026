@@ -8,8 +8,6 @@ namespace FPSDemo.Weapons
     public class Weapon : MonoBehaviour
     {
         public float gunShotDistanceToAlert;
-        [SerializeField] Transform swingFXPos;
-        [SerializeField] float muzzleFlashDuration = 0.15f;
         [SerializeField] AudioSource weaponAudioSource;
 
         public float fireRate = 3f;
@@ -19,7 +17,8 @@ namespace FPSDemo.Weapons
         public float maxAngleSpreadWhenShooting = 10f;
         public AnimationCurve spreadStabilityGain;
         [SerializeField] AudioClip[] shotSFX;
-        [SerializeField] GameObjectPooler muzzleFlashVFX;
+        [SerializeField] AudioClip[] hitSFX;
+        [SerializeField] [Range(0f, 1f)] float hitSFXVolume = 1f;
         [SerializeField] GameObjectPooler bloodHitPooler;
         [SerializeField] GameObjectPooler bulletHoleVFX;
 
@@ -39,11 +38,12 @@ namespace FPSDemo.Weapons
         public void Fire(HumanTarget target, Transform bulletStart, LayerMask shotLayerMask, int ragdollBodyLayerIndex)
         {
             weaponAudioSource.PlayOneShot(shotSFX[Random.Range(0, shotSFX.Length)]);
-            MakeMuzzleFlash();
 
             if (Physics.Raycast(bulletStart.position, bulletStart.forward, out RaycastHit hit, maxRange, shotLayerMask))
             {
                 MakeImpactVFX(hit);
+                if (hitSFX != null && hitSFX.Length > 0)
+                    AudioSource.PlayClipAtPoint(hitSFX[Random.Range(0, hitSFX.Length)], hit.point, hitSFXVolume);
             }
             
             var healthSystem = hit.collider?.GetComponentInParent<HealthSystem>();                                                                                                                      
@@ -51,27 +51,6 @@ namespace FPSDemo.Weapons
             {                                                                                                                                                                                 
                 healthSystem.WasShot(target);                                                                                                                  
             } 
-        }
-
-        void MakeMuzzleFlash()
-        {
-            GameObject flash = muzzleFlashVFX.GetPooledGO();
-            StartCoroutine(MaintainMuzzleFlashPositionAndRotation(flash));
-        }
-
-        IEnumerator MaintainMuzzleFlashPositionAndRotation(GameObject flash)
-        {
-            float timeLeft = muzzleFlashDuration;
-            while (timeLeft > 0)
-            {
-                timeLeft -= Time.deltaTime;
-                flash.transform.position = swingFXPos.position;
-                flash.transform.rotation = swingFXPos.rotation;
-                yield return null;
-            }
-
-            yield return new WaitForEndOfFrame(); // TODO needed?
-            flash.SetActive(false);
         }
 
         void MakeImpactVFX(RaycastHit hit)
