@@ -56,12 +56,23 @@ namespace FPSDemo.Weapons
         void MakeImpactVFX(RaycastHit hit)
         {
             GameObject impactVFXGO;
+            
             switch (hit.transform.gameObject.layer)
             {
                 case LayerManager.ragdollBodyLayer:
+                    if (bloodHitPooler == null)
+                    {
+                        bloodHitPooler = GameObject.FindGameObjectWithTag("BloodHitPooler")
+                            .GetComponent<GameObjectPooler>();
+                    }
                     impactVFXGO = bloodHitPooler.GetPooledGO();
                     break;
                 default:
+                    if (bulletHoleVFX == null)
+                    {
+                        bulletHoleVFX = GameObject.FindGameObjectWithTag("BulletHolePooler")
+                            .GetComponent<GameObjectPooler>();
+                    }
                     impactVFXGO = bulletHoleVFX.GetPooledGO();
                     break;
             }
