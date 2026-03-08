@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace FPSDemo.NPC
@@ -23,12 +24,18 @@ namespace FPSDemo.NPC
         private float _npcCooldownUntil;
         private float _nextCombatTauntTime;
         private bool _isInCombat;
+        private readonly Dictionary<BarkType, int> _lastPlayedIndex = new()
+        {
+            { BarkType.Damage,      -1 },
+            { BarkType.Death,       -1 },
+            { BarkType.Investigate, -1 },
+            { BarkType.CombatTaunt, -1 },
+        };
 
         public void SetInCombat(bool value)
         {
             if (_isInCombat == value) return;
             _isInCombat = value;
-            Debug.Log($"[BarkSystem] {name} combat state → {value}");
             if (value)
                 _nextCombatTauntTime = Time.time + Random.Range(_combatTauntInterval * 0.5f, _combatTauntInterval);
         }
@@ -37,7 +44,6 @@ namespace FPSDemo.NPC
         {
             if (_isInCombat && Time.time >= _nextCombatTauntTime)
             {
-                Debug.Log($"[BarkSystem] {name} attempting combat taunt");
                 TriggerBark(BarkType.CombatTaunt);
                 _nextCombatTauntTime = Time.time + Random.Range(_combatTauntInterval * 0.5f, _combatTauntInterval);
             }
@@ -48,7 +54,7 @@ namespace FPSDemo.NPC
             var clips = GetClips(type);
             if (clips == null || clips.Length == 0) return;
 
-            var clip = clips[Random.Range(0, clips.Length)];
+            var clip = clips[PickIndex(type, clips.Length)];
 
             if (type == BarkType.Death)
             {
@@ -64,6 +70,16 @@ namespace FPSDemo.NPC
 
             _npcCooldownUntil = Time.time + _perNPCCooldown;
             _audioSource.PlayOneShot(clip);
+        }
+
+        private int PickIndex(BarkType type, int count)
+        {
+            if (count == 1) return 0;
+            int last = _lastPlayedIndex[type];
+            int index = Random.Range(0, count - 1);
+            if (index >= last) index++;
+            _lastPlayedIndex[type] = index;
+            return index;
         }
 
         private AudioClip[] GetClips(BarkType type) => type switch

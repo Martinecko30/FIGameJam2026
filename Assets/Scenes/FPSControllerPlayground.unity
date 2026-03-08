@@ -1889,7 +1889,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0f77b3d7132b3e41b3ee68d310f586e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NPC::FPSDemo.NPC.PatrolWaypointAction
-  _waitTimeOverride: 5
+  _waitTimeOverride: -1
   _useWaypointFacing: 1
   _waitAnimationBool: 
   _onNPCArrived:
@@ -2291,10 +2291,6 @@ PrefabInstance:
     - target: {fileID: 467778002156970774, guid: 5245a5145bc209a4485ec4c6b284017f, type: 3}
       propertyPath: m_Name
       value: Soldier
-      objectReference: {fileID: 0}
-    - target: {fileID: 1509977915492539024, guid: 5245a5145bc209a4485ec4c6b284017f, type: 3}
-      propertyPath: _combatTauntInterval
-      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2879234820077837986, guid: 5245a5145bc209a4485ec4c6b284017f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6103,6 +6099,30 @@ PrefabInstance:
       propertyPath: _weaponNoiseDuration
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5537342722992909727, guid: 00594d37d3d43a04e8fa57f9f6e18992, type: 3}
+      propertyPath: _footstepClips.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5537342722992909727, guid: 00594d37d3d43a04e8fa57f9f6e18992, type: 3}
+      propertyPath: '_footstepClips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 18985987de7c4ec4ea880a0ad75e7d48, type: 3}
+    - target: {fileID: 5537342722992909727, guid: 00594d37d3d43a04e8fa57f9f6e18992, type: 3}
+      propertyPath: '_footstepClips.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8300000, guid: c05311f8cbb622f48b83cf9665875df2, type: 3}
+    - target: {fileID: 5537342722992909727, guid: 00594d37d3d43a04e8fa57f9f6e18992, type: 3}
+      propertyPath: '_footstepClips.Array.data[2]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 5dea033da940b7549a4ae0b16414b6dd, type: 3}
+    - target: {fileID: 5537342722992909727, guid: 00594d37d3d43a04e8fa57f9f6e18992, type: 3}
+      propertyPath: '_footstepClips.Array.data[3]'
+      value: 
+      objectReference: {fileID: 8300000, guid: eb628d4c083be6c448d6085f9f151df1, type: 3}
+    - target: {fileID: 5537342722992909727, guid: 00594d37d3d43a04e8fa57f9f6e18992, type: 3}
+      propertyPath: '_footstepClips.Array.data[4]'
+      value: 
+      objectReference: {fileID: 8300000, guid: c302f89678386494fa38a94e10310369, type: 3}
     - target: {fileID: 6788448091484151933, guid: 00594d37d3d43a04e8fa57f9f6e18992, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

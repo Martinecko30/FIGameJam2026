@@ -18,4 +18,9 @@ public class AnimatorRelay : MonoBehaviour
     {
         tps.OnMeleeHit(animationEvent);
     }
+
+    private void OnFootstep(AnimationEvent animationEvent)
+    {
+        tps.OnFootstep(animationEvent);
+    }
 }

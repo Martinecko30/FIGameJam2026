@@ -287,16 +287,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1da6e2e7abe8fda43a552e0f70bc24f4, type: 3}
   _meleeHitSFXVolume: 1
   _footstepAudioClips:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 18985987de7c4ec4ea880a0ad75e7d48, type: 3}
+  - {fileID: 8300000, guid: c05311f8cbb622f48b83cf9665875df2, type: 3}
+  - {fileID: 8300000, guid: 5dea033da940b7549a4ae0b16414b6dd, type: 3}
+  - {fileID: 8300000, guid: eb628d4c083be6c448d6085f9f151df1, type: 3}
+  - {fileID: 8300000, guid: c302f89678386494fa38a94e10310369, type: 3}
   _footstepAudioVolume: 0.3
   _gravity: -15
   _fallTimeout: 0.15
@@ -505,7 +500,7 @@ MonoBehaviour:
   _combatTauntBarks:
   - {fileID: 8300000, guid: 589ab5567bbaaec489f8f68dfc41ab7f, type: 3}
   _perNPCCooldown: 5
-  _combatTauntInterval: 8
+  _combatTauntInterval: 20
 --- !u!1 &473016288455014247
 GameObject:
   m_ObjectHideFlags: 0
