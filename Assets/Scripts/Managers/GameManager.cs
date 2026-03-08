@@ -5,7 +5,6 @@ using FPSDemo.Input;
 using FPSDemo.Target;
 using Quests;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace Managers
@@ -14,32 +13,84 @@ namespace Managers
     {
         [SerializeField] private Quest StartQuest;
         [SerializeField] private GameObject player;
-        
         [SerializeField] private InputManager inputManager; 
         
         private Area currentArea;
+        private HealthSystem playerHealthSystem;
 
         private void Start()
         {
-            DialogueManager.Instance.DialogFinished += delegate
-            {
-                inputManager.SetActiveAllGameplayControls(true);
-                Game.ToggleCursor(false);
-            };
+            DialogueManager.Instance.DialogFinished += DialogFinished;
             
             QuestManager.Instance.SetQuest(StartQuest);
             QuestManager.Instance.OnQuestComplete += QuestCompleted;
-            var healthSystem = player.GetComponent<HealthSystem>();
-            healthSystem.OnDeath += PlayerDied;
-            healthSystem.OnDamageTaken += PlayerDamaged;
+            
+            playerHealthSystem = player.GetComponent<HealthSystem>();
+            if (playerHealthSystem != null)
+            {
+                playerHealthSystem.OnDeath += PlayerDied;
+                playerHealthSystem.OnDamageTaken += PlayerDamaged;
+            }
+        }
+
+        protected void OnDestroy()
+        {
+            if (DialogueManager.Instance != null)
+                DialogueManager.Instance.DialogFinished -= DialogFinished;
+            
+            if (QuestManager.Instance != null)
+                QuestManager.Instance.OnQuestComplete -= QuestCompleted;
+                
+            if (playerHealthSystem != null)
+            {
+                playerHealthSystem.OnDeath -= PlayerDied;
+                playerHealthSystem.OnDamageTaken -= PlayerDamaged;
+            }
+        }
+        
+        private void Update()
+        {
+            CheckLocationQuests();
+        }
+
+        private void CheckLocationQuests()
+        {
+            var activeQuest = QuestManager.Instance.ActiveQuest;
+            if (activeQuest == null) return;
+
+            foreach (var subGoal in activeQuest.subGoals)
+            {
+                if (subGoal.completionType != CompletionType.Automatic || !subGoal.useRadius) 
+                    continue;
+
+                Vector2 playerPos2D = new Vector2(player.transform.position.x, player.transform.position.z); // Uprav podľa toho, či robíš 2D alebo 3D hru
+        
+                if (Vector2.Distance(playerPos2D, subGoal.goalPosition) <= subGoal.radius)
+                {
+                    QuestManager.Instance.CompleteSubGoal(subGoal);
+                    break;
+                }
+            }
         }
 
         private void QuestCompleted(Quest quest)
         {
-            QuestManager.Instance.SetQuest(quest.nextQuest);
+            
         }
 
-        // Wrapper
+        private void DialogFinished()
+        {
+            inputManager.SetActiveAllGameplayControls(true);
+            Game.ToggleCursor(false);
+            
+            var activeQuest = QuestManager.Instance.ActiveQuest;
+            if (QuestManager.TryGetSubGoalByCompletion(activeQuest, CompletionType.Dialog, out var subGoal))
+            {
+                if (subGoal.subName == "Promluv si s bláznem")
+                    QuestManager.Instance.CompleteSubGoal(subGoal);
+            }
+        }
+
         private void PlayerDied()
         {
             Restart();
@@ -47,9 +98,12 @@ namespace Managers
 
         private void PlayerDamaged(Vector3 position, HumanTarget attacker)
         {
-            if (currentArea.AreaTrigger.bounds.Contains(position) && !currentArea.IsActive)
+            if (currentArea != null && !currentArea.IsActive && currentArea.AreaTrigger != null)
             {
-                currentArea.Activate();
+                if (currentArea.AreaTrigger.bounds.Contains(position))
+                {
+                    currentArea.Activate();
+                }
             }
         }
 
@@ -62,6 +116,23 @@ namespace Managers
         public void SetArea(Area area)
         {
             currentArea = area;
+        }
+
+        public void ClearArea(Area area)
+        {
+            if (currentArea == area)
+            {
+                currentArea = null;
+            }
+        }
+        
+        public void CompleteCurrentArea()
+        {
+            if (currentArea != null && currentArea.IsActive)
+            {
+                currentArea.Deactivate();
+                currentArea = null;
+            }
         }
     }
 }

@@ -70,7 +70,6 @@ namespace Managers
 
         private void ClearChoices()
         {
-            Debug.Log(choices);
             foreach (var choiceButton in choices)
                 Destroy(choiceButton.gameObject);
             choices.Clear();

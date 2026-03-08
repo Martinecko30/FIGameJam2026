@@ -12,7 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cbf07f87fdcb0443b4b3c185ff766e6, type: 3}
   m_Name: SecondQuest
   m_EditorClassIdentifier: Assembly-CSharp::Quests.Quest
-  questName: Default
+  questName: Hrad?
   description: Default description
   nextQuest: {fileID: 0}
-  subGoals: []
+  subGoals:
+  - subName: "Vy\u010Disti oblast"
+    subDescription: "Pozab\xEDjej v\u0161echny nep\u0159\xEDtele"
+    goalPosition: {x: 0, y: 0}
+    useRadius: 0
+    radius: 0
+    circleColor: {r: 0, g: 0, b: 0, a: 0}
+    completionType: 2

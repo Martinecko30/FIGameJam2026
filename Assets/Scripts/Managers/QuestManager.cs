@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Core;
 using Quests;
 using TMPro;
@@ -11,20 +12,30 @@ namespace Managers
     {
         [SerializeField] private Transform goalsParent;
         [SerializeField] private TMP_Text mainGoalText;
-        [SerializeField] private TMP_Text subGoalPrefab;
+        [SerializeField] private Transform subGoalPrefab;
         
-        private Quest ActiveQuest;
+        private QuestCompletion questCompletion;
+
+        public Quest ActiveQuest => questCompletion.ActiveQuest;
 
         public Action<Quest> OnQuestComplete;
+        
 
         public void SetQuest(Quest quest)
         {
+            questCompletion = new QuestCompletion(quest);
+            ShowQuest(quest);
+        }
+
+        private void ShowQuest(Quest quest)
+        {
             ClearQuest();
-            ActiveQuest = quest;
             mainGoalText.text = quest.questName;
 
             foreach (var subGoal in quest.subGoals)
             {
+                if (questCompletion.CompletedGoals.Contains(subGoal))
+                    continue;
                 CreateSubGoal(subGoal);
             }
         }
@@ -32,15 +43,53 @@ namespace Managers
         private void CreateSubGoal(SubGoal goal)
         {
             var subGoal = Instantiate(subGoalPrefab, goalsParent);
-            subGoal.text = goal.subDescription;
+            subGoal.GetChild(0).GetComponent<TMP_Text>().text = goal.subName;
+            subGoal.GetChild(1).GetComponent<TMP_Text>().text = goal.subDescription;
         }
 
         private void ClearQuest()
         {
-            foreach (GameObject child in goalsParent)
+            foreach (Transform child in goalsParent)
             {
-                Destroy(child);
+                Destroy(child.gameObject);
             }
+        }
+
+        private void CompleteQuest()
+        {
+            if (ActiveQuest.nextQuest == null)
+                return;
+            
+            OnQuestComplete?.Invoke(ActiveQuest);
+            
+            SetQuest(ActiveQuest.nextQuest);
+        }
+
+        public void CompleteSubGoal(SubGoal subGoal)
+        {
+            questCompletion.CompleteGoal(subGoal);
+            ShowQuest(ActiveQuest);
+            
+            if (questCompletion.CompletedGoals.Count == ActiveQuest.subGoals.Count)
+                CompleteQuest();
+        }
+
+        public static bool TryGetSubGoalByCompletion(
+            Quest quest,
+            CompletionType completionType,
+            out SubGoal subGoal)
+        {
+            foreach (var goal in quest.subGoals)
+            {
+                if (goal.completionType == completionType)
+                {
+                    subGoal = goal;
+                    return true;
+                }
+            }
+            
+            subGoal = null;
+            return false;
         }
     }
 }
