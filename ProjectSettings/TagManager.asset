@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - DetectionCollisionUpdater
+  - MuzzleFlashPooler
+  - BulletHolePooler
+  - BloodHitPooler
   layers:
   - Default
   - TransparentFX
