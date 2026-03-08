@@ -447,7 +447,7 @@ namespace FPSDemo.NPC
             }
 
             _animator.SetTrigger(_animDeath);
-            _navAgent.isStopped = true;
+            _navAgent.enabled = false;
             enabled = false;
         }
 

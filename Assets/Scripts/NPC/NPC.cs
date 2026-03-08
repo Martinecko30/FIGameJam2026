@@ -140,6 +140,8 @@ namespace FPSDemo.NPC
             _controller.Death();
             var visionSensor = GetComponent<VisionSensor>();
             if (visionSensor != null) visionSensor.enabled = false;
+            foreach (var col in GetComponentsInChildren<Collider>())
+                col.isTrigger = true;
             enabled = false;
         }
 
