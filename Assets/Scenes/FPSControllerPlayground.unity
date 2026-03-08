@@ -6222,6 +6222,8 @@ GameObject:
   - component: {fileID: 6578274606929601592}
   - component: {fileID: 1226528233951332632}
   - component: {fileID: 7386764024575672171}
+  - component: {fileID: 7386764024575672173}
+  - component: {fileID: 7386764024575672172}
   m_Layer: 5
   m_Name: Container
   m_TagString: Untagged
@@ -6359,6 +6361,53 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &7386764024575672172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981856270122384148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2eb9d356a5b6f347a49f9a3e0abf345, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FPSDemo.UI.DamageVignette
+  _healthSystem: {fileID: 1050206873}
+  _vignetteImage: {fileID: 7386764024575672173}
+  _flashPeakAlpha: 0.6
+  _flashFadeDuration: 0.5
+  _lastHitMinAlpha: 0.2
+--- !u!114 &7386764024575672173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981856270122384148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 2100000, guid: 5001ae661aa4858428a253d5f3bb3342, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!224 &7758767832702439252
 RectTransform:
   m_ObjectHideFlags: 0
