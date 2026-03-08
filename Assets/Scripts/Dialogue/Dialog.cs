@@ -1,6 +1,9 @@
 ﻿using Ink.Runtime;
+using JetBrains.Annotations;
 using Managers;
+using Quests;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Dialogue
 {
@@ -9,7 +12,11 @@ namespace Dialogue
     {
         public TextAsset InkAsset;
 
+        [SerializeField] [CanBeNull] private SubGoal finishesGoal;
+        
         private Story inkStory;
+
+        public UnityEvent finishesDialog;
 
         private void Awake()
         {
@@ -20,7 +27,7 @@ namespace Dialogue
         {
             if (!inkStory.canContinue)
             {
-                DialogueManager.Instance.EndDialogue();
+                EndDialogue();
                 return;
             }
                 
@@ -45,6 +52,15 @@ namespace Dialogue
         {
             inkStory.ChooseChoiceIndex(option);
             ContinueDialogue();
+        }
+
+        private void EndDialogue()
+        {
+            finishesDialog?.Invoke();
+            if (finishesGoal != null)
+                QuestManager.Instance.CompleteSubGoal(finishesGoal);
+         
+            DialogueManager.Instance.EndDialogue();
         }
     }
 }

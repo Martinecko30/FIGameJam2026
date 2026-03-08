@@ -1,9 +1,11 @@
 ﻿using Dialogue;
 using FPSDemo.Core;
 using FPSDemo.Input;
+using FPSDemo.NPC;
+using Managers;
+using Quests;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Input = UnityEngine.Windows.Input;
 
 namespace Player
 {
@@ -14,7 +16,10 @@ namespace Player
         [SerializeField] private PlayerInput playerInput;
         [SerializeField] private InputManager _inputManager;
         
-        
+        [SerializeField] private PoisonableItem poisonableItem;
+        [Header("Goals")] [SerializeField] private SubGoal finishPoison;
+
+        private bool hasPoison = false;
         
         private void Awake()
         {
@@ -25,7 +30,7 @@ namespace Player
 
         private void PerformAction()
         {
-            if (Physics.Raycast(transform.position, transform.forward, out var hit))
+            if (Physics.Raycast(transform.position, transform.forward, out var hit, 100f))
             {
                 if (hit.transform.gameObject.TryGetComponent<Dialog>(out var dialog))
                 {
@@ -33,6 +38,18 @@ namespace Player
                     Game.ToggleCursor(true);
                     
                     dialog.ContinueDialogue();
+                }
+                
+                else if (!hasPoison && hit.transform.name == "poison")
+                {
+                    hasPoison = true;
+                    hit.transform.gameObject.SetActive(false);
+                }
+                
+                else if (hasPoison && hit.transform.name == "Golden Goblet")
+                {
+                    poisonableItem.IsPoisoned = true;
+                    QuestManager.Instance.CompleteSubGoal(finishPoison);
                 }
             }
         }

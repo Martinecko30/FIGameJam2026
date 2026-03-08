@@ -16,17 +16,5 @@ MonoBehaviour:
   description: Kde jsem?
   nextQuest: {fileID: 11400000, guid: 3bfc6f0f4be31d649a95c151d580e35d, type: 2}
   subGoals:
-  - subName: "Promluv si s bl\xE1znem"
-    subDescription: "Najdi a promluv si s bl\xE1znem ve v\u011Bznici"
-    goalPosition: {x: 7, y: 0}
-    useRadius: 1
-    radius: 1
-    circleColor: {r: 1, g: 0, b: 0, a: 0}
-    completionType: 1
-  - subName: Vybojuj si odsud cestu
-    subDescription: "Pora\u017E hodru pr\xEDchoz\xEDch str\xE1\u017En\xEDk\u016F"
-    goalPosition: {x: 3, y: -4}
-    useRadius: 1
-    radius: 1
-    circleColor: {r: 1, g: 0, b: 0, a: 0}
-    completionType: 2
+  - {fileID: 11400000, guid: a1599c52f981b3e4eb08e0470450077b, type: 2}
+  - {fileID: 11400000, guid: 2363b606c07e83448abc658944c84dd2, type: 2}

@@ -5,6 +5,7 @@ using Core;
 using Quests;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Managers
 {
@@ -19,7 +20,20 @@ namespace Managers
         public Quest ActiveQuest => questCompletion.ActiveQuest;
 
         public Action<Quest> OnQuestComplete;
-        
+
+        private void Start()
+        {
+            SceneManager.sceneLoaded += (_, _) => Initialize();
+            Initialize();
+        }
+
+        public void Initialize()
+        {
+            goalsParent = GameObject.Find("QuestGoals").transform;
+            mainGoalText = GameObject.Find("QuestName").GetComponent<TextMeshProUGUI>();
+            subGoalPrefab = Resources.Load<Transform>("Prefabs/SubGoal");
+        }
+
 
         public void SetQuest(Quest quest)
         {
@@ -69,27 +83,9 @@ namespace Managers
         {
             questCompletion.CompleteGoal(subGoal);
             ShowQuest(ActiveQuest);
-            
-            if (questCompletion.CompletedGoals.Count == ActiveQuest.subGoals.Count)
-                CompleteQuest();
-        }
 
-        public static bool TryGetSubGoalByCompletion(
-            Quest quest,
-            CompletionType completionType,
-            out SubGoal subGoal)
-        {
-            foreach (var goal in quest.subGoals)
-            {
-                if (goal.completionType == completionType)
-                {
-                    subGoal = goal;
-                    return true;
-                }
-            }
-            
-            subGoal = null;
-            return false;
+            if (questCompletion.AllNecessaryCompleted())
+                CompleteQuest();
         }
     }
 }

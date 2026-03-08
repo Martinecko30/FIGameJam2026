@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace FPSDemo.NPC
@@ -7,7 +8,13 @@ namespace FPSDemo.NPC
         private static readonly List<NPC> _all = new();
 
         public static void Register(NPC npc) => _all.Add(npc);
-        public static void Unregister(NPC npc) => _all.Remove(npc);
+        public static void Unregister(NPC npc)
+        {
+            OnGuardUnregistered?.Invoke(npc);
+            _all.Remove(npc);
+        }
+
+        public static event Action<NPC> OnGuardUnregistered;
 
         public static List<NPC> GetAlertedGuards()
         {

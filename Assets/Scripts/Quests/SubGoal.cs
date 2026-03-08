@@ -8,11 +8,13 @@ namespace Quests
     {
         Automatic = 0,
         Dialog = 1,
-        EnemySlain = 2
+        EnemySlain = 2,
+        ItemInteract = 3
     }
     
     [Serializable]
-    public class SubGoal
+    [CreateAssetMenu(fileName = "Sub Goal", menuName = "Quests/New Sub Goal", order = 2)]
+    public class SubGoal : ScriptableObject
     {
         [Header("Details")]
         public string subName = "Default";
@@ -22,9 +24,9 @@ namespace Quests
         public Vector2 goalPosition = Vector2.zero;
         public bool useRadius = true;
         public float radius = 16;
-        public Color circleColor = Color.white;
         
         [Header("Completion")]
         public CompletionType completionType = CompletionType.Automatic;
+        public bool isNecessary = false;
     }
 }

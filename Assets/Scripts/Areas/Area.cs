@@ -12,6 +12,7 @@ namespace Areas
         public Collider AreaTrigger { get; private set; }
 
         [SerializeField] private List<Collider> areaBounds = new();
+        
 
         private void Start()
         {
