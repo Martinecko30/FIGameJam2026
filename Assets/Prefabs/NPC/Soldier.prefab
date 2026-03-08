@@ -107,6 +107,8 @@ GameObject:
   - component: {fileID: -2090350393218632744}
   - component: {fileID: 1917203156932474957}
   - component: {fileID: 5019909181503377382}
+  - component: {fileID: 2981399588711825795}
+  - component: {fileID: 1509977915492539024}
   m_Layer: 6
   m_Name: Soldier
   m_TagString: Untagged
@@ -148,6 +150,7 @@ MonoBehaviour:
   _settings: {fileID: 11400000, guid: 98cbce5454209d7469b430d8184afa62, type: 2}
   _controller: {fileID: 4286341724367834088}
   _patrolPath: {fileID: 0}
+  _barkSystem: {fileID: 1509977915492539024}
 --- !u!136 &2773373085705929603
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -271,6 +274,18 @@ MonoBehaviour:
   _rotationSmoothTime: 0.12
   _meleeAttackRange: 2
   _meleeAttackCooldown: 1
+  _meleeHitBuffer: 0.5
+  _meleeSwingSFX:
+  - {fileID: 8300000, guid: 2203f0a939e21c349b7c4ce6d212ba0d, type: 3}
+  - {fileID: 8300000, guid: f0636594dd76fa94eb056afb1c485c91, type: 3}
+  - {fileID: 8300000, guid: b68dabe3b26773e40b1ff18e09df66f2, type: 3}
+  - {fileID: 8300000, guid: d6bfe693458e4a14d8d02522b1c9267f, type: 3}
+  - {fileID: 8300000, guid: 5ad56f3a217b91743887bdf04761665b, type: 3}
+  - {fileID: 8300000, guid: fe0dad25aabc7144b853bf2c33d359d9, type: 3}
+  _meleeSwingSFXVolume: 1
+  _meleeHitSFX:
+  - {fileID: 8300000, guid: 1da6e2e7abe8fda43a552e0f70bc24f4, type: 3}
+  _meleeHitSFXVolume: 1
   _footstepAudioClips:
   - {fileID: 0}
   - {fileID: 0}
@@ -356,6 +371,141 @@ MonoBehaviour:
   _awarenessGainPerSecondAtMaxNoise: 2
   _turnTowardSoundThreshold: 0.75
   _debugMode: 0
+--- !u!82 &2981399588711825795
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467778002156970774}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &1509977915492539024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467778002156970774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5db7e17b1965dc8448ad6831dc04d7e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NPC::FPSDemo.NPC.NPCBarkSystem
+  _audioSource: {fileID: 2981399588711825795}
+  _damageBarks:
+  - {fileID: 8300000, guid: 3bb95964b8b9d8640a2e4a62c6509991, type: 3}
+  - {fileID: 8300000, guid: 251b47965a784824f80b88f0b9773ffb, type: 3}
+  - {fileID: 8300000, guid: e170dd10cb8818c4c93918242fc0796a, type: 3}
+  - {fileID: 8300000, guid: b5d2e0388ae6dd04baad67efba6d4da1, type: 3}
+  - {fileID: 8300000, guid: 88ae6c201d78dc44185877d601ae88ba, type: 3}
+  - {fileID: 8300000, guid: 35ae876f7ec96214b98aabe6ab7bd53a, type: 3}
+  - {fileID: 8300000, guid: 33ccd2a0a8dbb1345bb5300f67d83972, type: 3}
+  - {fileID: 8300000, guid: cf46726b3feb5e1428c3c10ff26f6bf7, type: 3}
+  _deathBarks:
+  - {fileID: 8300000, guid: 3bb95964b8b9d8640a2e4a62c6509991, type: 3}
+  - {fileID: 8300000, guid: 251b47965a784824f80b88f0b9773ffb, type: 3}
+  - {fileID: 8300000, guid: e170dd10cb8818c4c93918242fc0796a, type: 3}
+  - {fileID: 8300000, guid: b5d2e0388ae6dd04baad67efba6d4da1, type: 3}
+  - {fileID: 8300000, guid: 88ae6c201d78dc44185877d601ae88ba, type: 3}
+  - {fileID: 8300000, guid: 35ae876f7ec96214b98aabe6ab7bd53a, type: 3}
+  - {fileID: 8300000, guid: 33ccd2a0a8dbb1345bb5300f67d83972, type: 3}
+  - {fileID: 8300000, guid: cf46726b3feb5e1428c3c10ff26f6bf7, type: 3}
+  - {fileID: 8300000, guid: f446ca8e33e06664f959fa0336c0f65a, type: 3}
+  - {fileID: 8300000, guid: a8d8c441b7b693944b4eb2ba1515b5aa, type: 3}
+  _investigateBarks: []
+  _combatTauntBarks:
+  - {fileID: 8300000, guid: 589ab5567bbaaec489f8f68dfc41ab7f, type: 3}
+  _perNPCCooldown: 5
+  _combatTauntInterval: 8
 --- !u!1 &473016288455014247
 GameObject:
   m_ObjectHideFlags: 0

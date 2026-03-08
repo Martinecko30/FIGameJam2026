@@ -251,6 +251,31 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -6145683337337129500, guid: 499a61a1e8a169542a1842d484f50e4b, type: 3}
+--- !u!1 &117125696 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 467778002156970774, guid: 5245a5145bc209a4485ec4c6b284017f, type: 3}
+  m_PrefabInstance: {fileID: 322327823}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &117125708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 117125696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5db7e17b1965dc8448ad6831dc04d7e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NPC::FPSDemo.NPC.NPCBarkSystem
+  _audioSource: {fileID: 0}
+  _damageBarks: []
+  _deathBarks: []
+  _investigateBarks: []
+  _combatTauntBarks:
+  - {fileID: 8300000, guid: 47e2223128f88404b95c3f64d0ca4621, type: 3}
+  _perNPCCooldown: 5
+  _combatTauntInterval: 8
 --- !u!64 &118957263
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -752,7 +777,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 467778002156970774, guid: 5245a5145bc209a4485ec4c6b284017f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 117125708}
   m_SourcePrefab: {fileID: 100100000, guid: 5245a5145bc209a4485ec4c6b284017f, type: 3}
 --- !u!64 &328404569
 MeshCollider:
@@ -2264,6 +2292,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Soldier
       objectReference: {fileID: 0}
+    - target: {fileID: 1509977915492539024, guid: 5245a5145bc209a4485ec4c6b284017f, type: 3}
+      propertyPath: _combatTauntInterval
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 2879234820077837986, guid: 5245a5145bc209a4485ec4c6b284017f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.15
@@ -2303,10 +2335,6 @@ PrefabInstance:
     - target: {fileID: 2879234820077837986, guid: 5245a5145bc209a4485ec4c6b284017f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4286341724367834088, guid: 5245a5145bc209a4485ec4c6b284017f, type: 3}
-      propertyPath: _meleeHitBuffer
-      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4286341724367834088, guid: 5245a5145bc209a4485ec4c6b284017f, type: 3}
       propertyPath: _playerTransform

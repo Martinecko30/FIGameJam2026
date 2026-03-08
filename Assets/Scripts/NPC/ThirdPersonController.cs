@@ -39,6 +39,10 @@ namespace FPSDemo.NPC
         [Header("Melee")] [SerializeField] private float _meleeAttackRange = 2f;
         [SerializeField] private float _meleeAttackCooldown = 1f;
         [SerializeField] private float _meleeHitBuffer = 0.5f;
+        [SerializeField] private AudioClip[] _meleeSwingSFX;
+        [SerializeField] [Range(0f, 1f)] private float _meleeSwingSFXVolume = 1f;
+        [SerializeField] private AudioClip[] _meleeHitSFX;
+        [SerializeField] [Range(0f, 1f)] private float _meleeHitSFXVolume = 1f;
 
         [SerializeField] private AudioClip[] _footstepAudioClips;
 
@@ -423,6 +427,8 @@ namespace FPSDemo.NPC
             _lastMeleeAttackTime = Time.time;
             _animator.SetLayerWeight(1, 1f);
             _animator.SetTrigger(_animAttack);
+            if (_meleeSwingSFX != null && _meleeSwingSFX.Length > 0)
+                AudioSource.PlayClipAtPoint(_meleeSwingSFX[Random.Range(0, _meleeSwingSFX.Length)], transform.position, _meleeSwingSFXVolume);
         }
 
         // ========================================================= DEATH BEHAVIORS
@@ -516,6 +522,8 @@ namespace FPSDemo.NPC
             if (_playerHealthSystem == null) return;
             if (Vector3.Distance(transform.position, _playerTransform.position) <= _meleeAttackRange + _meleeHitBuffer)
             {
+                if (_meleeHitSFX != null && _meleeHitSFX.Length > 0)
+                    AudioSource.PlayClipAtPoint(_meleeHitSFX[Random.Range(0, _meleeHitSFX.Length)], _playerTransform.position, _meleeHitSFXVolume);
                 _playerHealthSystem.WasShot(_thisTarget);
             }
         }

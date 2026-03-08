@@ -18,6 +18,7 @@ namespace FPSDemo.NPC
         [SerializeField] private NPCSettings _settings;
         [SerializeField] private ThirdPersonController _controller;
         [SerializeField] private PatrolPath _patrolPath;
+        [SerializeField] private NPCBarkSystem _barkSystem;
 
 
         // ========================================================= PRIVATE FIELDS
@@ -108,17 +109,23 @@ namespace FPSDemo.NPC
                 _context.SetAwarenessOfThisEnemy(attacker, _context.AlertAwarenessThreshold);
             }
 
+            if (_healthSystem.HitCount < _healthSystem.HitsToKill)
+                _barkSystem?.TriggerBark(BarkType.Damage);
             _context.RecordDamageAtCurrentPosition();
             _context.SetState(AIWorldState.CurrentPositionCompromised, true, EffectType.Permanent);
         }
 
         private void OnDeath()
         {
+            _barkSystem?.TriggerBark(BarkType.Death);
+            if (_barkSystem != null) _barkSystem.enabled = false;
             _controller.Death();
             var visionSensor = GetComponent<VisionSensor>();
             if (visionSensor != null) visionSensor.enabled = false;
             enabled = false;
         }
+
+        public void Bark(BarkType type) => _barkSystem?.TriggerBark(type);
 
         public void Update()
         {
@@ -126,6 +133,7 @@ namespace FPSDemo.NPC
             _planner.Tick(_domain, _context);
 
             _weaponFsm.Tick(_context);
+            _barkSystem?.SetInCombat(_context.HasState(AIWorldState.AwareOfEnemy));
         }
         
         private void OnDestroy()
